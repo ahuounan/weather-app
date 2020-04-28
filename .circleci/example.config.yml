@@ -1,0 +1,52 @@
+version: 2.1
+executors:
+  docker:
+    docker:
+      - image: alpine:3.7
+    working_directory: ~/project
+jobs:
+  build:
+    executor: docker
+    steps:
+      - checkout
+      - run:
+          name: Install node
+          command: apk add --update nodejs-npm
+      - run:
+          name: Install missing packages
+          command: apk add autoconf automake make gcc g++ libtool make zlib libpng libpng-dev libjpeg-turbo-dev libwebp-tools
+      - run:
+          name: Install node modules
+          command: npm install
+      - run:
+          name: Running build
+          command: npm run build
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - dist
+  deploy:
+    executor: docker
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Install python
+          command: apk add --update py-pip
+      - run:
+          name: Install aws cli
+          command: pip install awscli
+      - run:
+          name: Deploy to S3 bucket
+          command: aws s3 sync ./dist s3://<bucketname> --exact-timestamps --delete
+workflows:
+  version: 2
+  Deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master

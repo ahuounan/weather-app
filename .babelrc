@@ -1,0 +1,30 @@
+{
+  "plugins": [
+    "transform-inline-environment-variables",
+    [
+      "babel-plugin-jsx-pragmatic",
+      {
+        "export": "jsx",
+        "module": "@emotion/core",
+        "import": "___EmotionJSX"
+      }
+    ],
+    [
+      "@babel/plugin-transform-react-jsx",
+      {
+        "pragma": "___EmotionJSX",
+        "pragmaFrag": "React.Fragment"
+      }
+    ],
+    [
+      "emotion",
+      {
+        "autoLabel": true,
+        "labelFormat": "[local]",
+        "useBuiltIns": false,
+        "throwIfNamespace": true,
+        "sourceMap": true
+      }
+    ]
+  ]
+}
