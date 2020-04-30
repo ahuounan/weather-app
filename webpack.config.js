@@ -19,27 +19,6 @@ module.exports = {
         options: { cacheDirectory: true }
       },
       {
-        test: /\.(gif|png|jpe?g|svg)$/i,
-        use: [
-          'file-loader',
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              optipng: {
-                enabled: false
-              },
-              pngquant: {
-                quality: [0.65, 0.9],
-                speed: 4
-              },
-              webp: {
-                quality: 75
-              }
-            }
-          }
-        ]
-      },
-      {
         test: /\.ts(x?)$/,
         exclude: /node_modules/,
         use: [
@@ -69,7 +48,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Jenny Dong',
+      title: 'Weather App',
       filename: './index.html', //relative to root of the application
       template: './index.html'
     })
