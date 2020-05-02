@@ -38,7 +38,7 @@ jobs:
           command: pip install awscli
       - run:
           name: Deploy to S3 bucket
-          command: aws s3 sync ./dist s3://<bucketname> --exact-timestamps --delete
+          command: aws s3 sync ./dist s3://weather-app --exact-timestamps --delete
 workflows:
   version: 2
   Deploy:
