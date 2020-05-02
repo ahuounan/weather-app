@@ -1,22 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-
-import { Router } from 'Router';
-import { DependencyManager } from 'services/DependencyManager';
 import { Provider } from 'react-redux';
-import { store } from 'store/config';
+import { BrowserRouter } from 'react-router-dom';
 
-export class App {
-  constructor() {
-    DependencyManager.initialize();
-  }
+import { Routes } from 'view/Routes';
+import { store } from 'store';
 
-  run() {
-    ReactDOM.render(
-      <Provider store={store}>
-        <Router />
-      </Provider>,
-      document.getElementById('root')
-    );
-  }
-}
+export const App = () => (
+  <Provider store={store}>
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
+  </Provider>
+);

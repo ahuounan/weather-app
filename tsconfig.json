@@ -3,6 +3,7 @@
     "target": "es5", // Specify ECMAScript target version
     "lib": ["dom", "dom.iterable", "esnext"], // List of library files to be included in the compilation
     "baseUrl": "src",
+    "downlevelIteration": true,
     "skipLibCheck": true, // Skip type checking of all declaration files
     "esModuleInterop": true, // Disables namespace imports (import * as fs from "fs") and enables CJS/AMD/UMD style imports (import fs from "fs")
     "allowSyntheticDefaultImports": true, // Allow default imports from modules with no default export
@@ -21,7 +22,7 @@
     "incremental": true, // Enable incremental compilation by reading/writing information from prior compilations to a file on disk
     "noFallthroughCasesInSwitch": true, // Report errors for fallthrough cases in switch statement
     "typeRoots": ["node_modules/@types"],
-    "types": ["@emotion/core"]
+    "types": ["node", "@emotion/core"]
   },
   "include": [
     "src/**/*" // *** The files TypeScript should type check ***

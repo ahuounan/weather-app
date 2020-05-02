@@ -1,5 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+require('dotenv').config();
 
 module.exports = {
   mode: 'production',
@@ -17,27 +19,6 @@ module.exports = {
         loader: 'babel-loader',
         include: /src/,
         options: { cacheDirectory: true }
-      },
-      {
-        test: /\.(gif|png|jpe?g|svg)$/i,
-        use: [
-          'file-loader',
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              optipng: {
-                enabled: false
-              },
-              pngquant: {
-                quality: [0.65, 0.9],
-                speed: 4
-              },
-              webp: {
-                quality: 75
-              }
-            }
-          }
-        ]
       },
       {
         test: /\.ts(x?)$/,
@@ -68,8 +49,9 @@ module.exports = {
     path: path.join(__dirname, 'dist')
   },
   plugins: [
+    new webpack.EnvironmentPlugin({ ...process.env }),
     new HtmlWebpackPlugin({
-      title: 'Jenny Dong',
+      title: 'Weather App',
       filename: './index.html', //relative to root of the application
       template: './index.html'
     })

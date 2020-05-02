@@ -1,6 +1,7 @@
 import { all } from 'redux-saga/effects';
-import { PaintingsSagas } from './example/sagas';
+import { WeatherSagas } from './data/weather/sagas';
+import { GeocodeSagas } from './data/geocode/sagas';
 
 export function* rootSaga() {
-  yield all([...PaintingsSagas]);
+  yield all([...WeatherSagas, ...GeocodeSagas]);
 }
