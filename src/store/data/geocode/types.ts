@@ -1,9 +1,8 @@
 export interface GeocodeState {
   fetching: boolean;
   error: boolean;
-  data: {
-    [location: string]: GeocodeResults;
-  };
+  searchResults: Record<string, GeocodeSearchResults>;
+  locationData: GeocodeLocationData;
 }
 
 export interface GeocodeQueryPayload {
@@ -19,10 +18,12 @@ export interface GeocodeFetchResponsePayload {
   data: OpenCageApiResponse;
 }
 
-export interface GeocodeResults {
+export type GeocodeLocationData = Record<string, GeocodeResult>;
+
+export interface GeocodeSearchResults {
   placename: string;
   timestamp: number;
-  results: GeocodeResult[];
+  resultIds: string[];
 }
 
 export interface GeocodeResult {

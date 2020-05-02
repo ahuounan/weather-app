@@ -1,4 +1,7 @@
-import { InputType, InputComponent } from 'view/components/primitives/Input/types';
+import {
+  InputType,
+  InputComponent
+} from 'view/components/primitives/Input/types';
 
 export interface InputConfig {
   label: string;

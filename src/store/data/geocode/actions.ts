@@ -17,10 +17,12 @@ export enum GeocodeActionTypes {
 export const GeocodeActions = {
   geocodeFetchRequest: (payload: GeocodeFetchRequestPayload) =>
     createAction(GeocodeActionTypes.GEOCODE_FETCH_REQUEST, payload),
-  geocodeFetchFailure: () => createAction(GeocodeActionTypes.GEOCODE_FETCH_FAILURE),
+  geocodeFetchFailure: () =>
+    createAction(GeocodeActionTypes.GEOCODE_FETCH_FAILURE),
   geocodeFetchSuccess: (payload: GeocodeFetchResponsePayload) =>
     createAction(GeocodeActionTypes.GEOCODE_FETCH_SUCCESS, payload),
-  geocodeReturnCached: () => createAction(GeocodeActionTypes.GEOCODE_RETURN_CACHED),
+  geocodeReturnCached: () =>
+    createAction(GeocodeActionTypes.GEOCODE_RETURN_CACHED),
   geocodeQuery: (payload: GeocodeQueryPayload) =>
     createAction(GeocodeActionTypes.GEOCODE_QUERY, payload)
 };

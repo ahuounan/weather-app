@@ -1,25 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-import { useDispatch, useSelector } from 'react-redux';
 import { Stack } from 'view/components/layouts/Stack';
 import { Text } from 'view/components/primitives/Text';
 import { TextComponent, TextType } from 'view/components/primitives/Text/types';
 import { Input } from 'view/components/primitives/Input';
-import { InputComponent, InputType } from 'view/components/primitives/Input/types';
+import {
+  InputComponent,
+  InputType
+} from 'view/components/primitives/Input/types';
 import { GeocodeActions } from 'store/data/geocode/actions';
 import { geocodeSelectors } from 'store/data/geocode/selectors';
-import { RootState } from 'store/data/types';
+import { RootState } from 'store/types';
+import { useSelector } from 'store/hooks';
+import { GeocodeResult } from 'store/data/geocode/types';
 
 export const Search = () => {
-  const dispatch = useDispatch();
-
   const [query, setQuery] = React.useState('');
-  React.useEffect(() => {
-    if (query.length > 1) {
-      dispatch(GeocodeActions.geocodeQuery({ placename: query }));
-    }
-  }, [query]);
   const handleChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setQuery(e.target.value);
@@ -27,11 +25,19 @@ export const Search = () => {
     [setQuery]
   );
 
-  const results = useSelector((state: RootState) =>
-    geocodeSelectors.getGeocodeResults(state, query)
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    if (query.length > 1) {
+      dispatch(GeocodeActions.geocodeQuery({ placename: query }));
+    }
+  }, [query]);
+
+  const results = useSelector(
+    (state: RootState) =>
+      geocodeSelectors.getDenormalizedSearchResultByQuery(state, query),
+    (left, right) => left.placename === right.placename
   );
   const isFetching = useSelector(geocodeSelectors.getIsFetching);
-  const error = useSelector(geocodeSelectors.getError);
 
   return (
     <Stack>
@@ -52,15 +58,16 @@ export const Search = () => {
           Loading...
         </Text>
       ) : (
-        results?.results.map(result => {
+        results?.results?.map((result: GeocodeResult) => {
           return (
-            <Text key={result.id} as={TextComponent.P} type={TextType.BODY}>
-              {result.label}
-            </Text>
+            <Link key={result.id} to={`/weather/${result.id}`}>
+              <Text as={TextComponent.P} type={TextType.BODY}>
+                {result.label}
+              </Text>
+            </Link>
           );
         })
       )}
-      <Link to="/weather/london">Weather</Link>
     </Stack>
   );
 };
