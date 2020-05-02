@@ -65,7 +65,7 @@ export const Weather = () => {
   const weatherData = useSelector((state: RootState) =>
     weatherSelectors.getWeatherDataByLatLng(state, lat, lng)
   );
-  console.log(weatherData);
+
   return (
     <Box>
       <Wrapper>
@@ -77,9 +77,11 @@ export const Weather = () => {
         <Text as={TextComponent.H1} type={TextType.HEADER}>
           {label}
         </Text>
-        <Input type={InputType.BUTTON} as={InputComponent.BUTTON}>
-          Settings
-        </Input>
+        <Link to="/settings">
+          <Text as={TextComponent.P} type={TextType.BODY}>
+            Settings
+          </Text>
+        </Link>
         <Text as={TextComponent.H1} type={TextType.HEADER}>
           {formatDate(new Date())}
         </Text>
