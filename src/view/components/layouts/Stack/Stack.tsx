@@ -11,5 +11,5 @@ export const Stack = (props: Props) => {
   const { children } = props;
   const styles = buildStyles();
 
-  return <Box css={styles.stack}>{children}</Box>;
+  return <Box styles={styles.stack}>{children}</Box>;
 };

@@ -1,11 +1,13 @@
 import React from 'react';
+import { CSSObjects } from 'types/styles';
 
 interface Props {
   children: React.ReactNode;
+  styles?: CSSObjects;
 }
 
 export const Box = (props: Props) => {
-  const { children } = props;
+  const { children, styles } = props;
 
-  return <div>{children}</div>;
+  return <div css={styles}>{children}</div>;
 };

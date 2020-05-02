@@ -8,7 +8,7 @@ export const Routes = () => {
   return (
     <Switch>
       <Route path="/" exact>
-        <Redirect to="/search" />
+        <Search />
       </Route>
       <Route path="/search">
         <Search />

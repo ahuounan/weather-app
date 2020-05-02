@@ -1,4 +1,5 @@
 import React from 'react';
+import { omit } from 'lodash';
 
 import { buildStyles } from './styles';
 import { TextProps, TextComponent } from './types';
@@ -9,7 +10,8 @@ export const Text = (props: TextProps) => {
 
   switch (props.as) {
     case TextComponent.P: {
-      const { as, type, ...remainingProps } = props;
+      const { type } = props;
+      const remainingProps = omit(props, 'as', 'type');
 
       return (
         <p css={[styles.default, styles[type]]} {...remainingProps}>
@@ -18,7 +20,8 @@ export const Text = (props: TextProps) => {
       );
     }
     case TextComponent.LABEL: {
-      const { as, type, ...remainingProps } = props;
+      const { type } = props;
+      const remainingProps = omit(props, 'as', 'type');
 
       return (
         <label css={[styles.default, styles[type]]} {...remainingProps}>
@@ -27,7 +30,8 @@ export const Text = (props: TextProps) => {
       );
     }
     case TextComponent.H1: {
-      const { as, type, ...remainingProps } = props;
+      const { type } = props;
+      const remainingProps = omit(props, 'as', 'type');
 
       return (
         <h1 css={[styles.default, styles[type]]} {...remainingProps}>
@@ -36,7 +40,8 @@ export const Text = (props: TextProps) => {
       );
     }
     case TextComponent.H2: {
-      const { as, type, ...remainingProps } = props;
+      const { type } = props;
+      const remainingProps = omit(props, 'as', 'type');
 
       return (
         <h2 css={[styles.default, styles[type]]} {...remainingProps}>

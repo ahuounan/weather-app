@@ -2,6 +2,16 @@ import { InputType, InputComponent } from 'view/components/primitives/Input/type
 
 export interface InputConfig {
   label: string;
-  type: InputType;
-  component: InputComponent;
+  key: string;
+  component: InputComponent.INPUT;
+  type: InputType.RADIO | InputType.TEXT;
 }
+
+export enum FormState {
+  NOT_SUBMITTED = 'NOT_SUBMITTED',
+  SUBMITTING = 'SUBMITTING',
+  SUCCESS = 'SUCCESS',
+  FAILURE = 'FAILURE'
+}
+
+export type FormData = Record<string, string>;

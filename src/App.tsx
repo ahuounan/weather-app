@@ -1,11 +1,14 @@
 import React from 'react';
-
-import { Routes } from 'view/Routes';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
+import { Routes } from 'view/Routes';
+import { store } from 'store';
+
 export const App = () => (
-  <BrowserRouter>
-    <div>weather app</div>
-    <Routes />
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
+  </Provider>
 );

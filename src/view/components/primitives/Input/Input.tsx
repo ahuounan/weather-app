@@ -1,4 +1,5 @@
 import React from 'react';
+import { omit } from 'lodash';
 
 import { buildStyles } from './styles';
 import { InputProps, InputType } from './types';
@@ -8,18 +9,50 @@ export const Input = (props: InputProps) => {
 
   switch (props.type) {
     case InputType.BUTTON: {
-      const { children } = props;
+      const { children, css } = props;
+      const remainingProps = omit(props, 'children', 'css', 'type');
 
-      return <button css={[styles.default, styles[InputType.BUTTON]]}>{children}</button>;
+      return (
+        <button css={[styles.default, styles[InputType.BUTTON], css]} {...remainingProps}>
+          {children}
+        </button>
+      );
     }
     case InputType.SUBMIT: {
-      return <input type="submit" css={[styles.default, styles[InputType.SUBMIT]]} />;
+      const { css } = props;
+      const remainingProps = omit(props, 'css');
+
+      return (
+        <input
+          type="submit"
+          css={[styles.default, styles[InputType.SUBMIT], css]}
+          {...remainingProps}
+        />
+      );
     }
     case InputType.TEXT: {
-      return <input type="text" css={[styles.default, styles[InputType.TEXT]]} />;
+      const { css } = props;
+      const remainingProps = omit(props, 'css');
+
+      return (
+        <input
+          type="text"
+          css={[styles.default, styles[InputType.TEXT], css]}
+          {...remainingProps}
+        />
+      );
     }
     case InputType.RADIO: {
-      return <input type="radio" css={[styles.default, styles[InputType.RADIO]]} />;
+      const { css } = props;
+      const remainingProps = omit(props, 'css');
+
+      return (
+        <input
+          type="radio"
+          css={[styles.default, styles[InputType.RADIO], css]}
+          {...remainingProps}
+        />
+      );
     }
   }
 };

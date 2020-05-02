@@ -1,3 +1,5 @@
+import { CSSObjects } from 'types/styles';
+
 export type ParagraphProps = React.HTMLProps<HTMLParagraphElement> & {
   type: TextType.BODY;
   as: TextComponent.P;
@@ -20,7 +22,11 @@ export type HeadingProps = React.HTMLProps<HTMLHeadingElement> &
       }
   );
 
-export type TextProps = ParagraphProps | LabelProps | HeadingProps;
+export type SharedTextProps = {
+  styles?: CSSObjects;
+};
+
+export type TextProps = (ParagraphProps | LabelProps | HeadingProps) & SharedTextProps;
 
 export enum TextType {
   HEADER = 'HEADER',
