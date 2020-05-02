@@ -13,7 +13,7 @@ export const Routes = () => {
       <Route path="/search">
         <Search />
       </Route>
-      <Route path="/weather/:location">
+      <Route path="/weather/:id">
         <Weather />
       </Route>
     </Switch>

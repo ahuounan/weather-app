@@ -1,21 +1,37 @@
-import { RootState } from '../types';
+import { RootState } from 'store/types';
 
-const getGeocodeResults = (state: RootState, query: string) => state.geocode.data[query];
+import { geocodeTransformers } from './transformers';
 
-const getGeocodeResultByRanking = (state: RootState, query: string, ranking: number) => {
-  const results = getGeocodeResults(state, query);
-  if (!results) return [];
+const getSearchResultByQuery = (state: RootState, query: string) =>
+  state.geocode.searchResults[query];
 
-  return ranking < results.results.length ? results.results[ranking] : [];
+const getLocationData = (state: RootState) => state.geocode.locationData;
+
+const getDenormalizedSearchResultByQuery = (
+  state: RootState,
+  query: string
+) => {
+  const results = getSearchResultByQuery(state, query);
+  const locationData = getLocationData(state);
+  const denormalizedResults = geocodeTransformers.denormalizeResults(
+    results,
+    locationData
+  );
+  return denormalizedResults;
 };
+
+const getDataById = (state: RootState, id?: string) =>
+  id ? state.geocode.locationData[id] : undefined;
 
 const getIsFetching = (state: RootState) => state.geocode.fetching;
 
 const getError = (state: RootState) => state.geocode.error;
 
 export const geocodeSelectors = {
-  getGeocodeResults,
-  getGeocodeResultByRanking,
+  getSearchResultByQuery,
+  getLocationData,
+  getDenormalizedSearchResultByQuery,
+  getDataById,
   getIsFetching,
   getError
 };

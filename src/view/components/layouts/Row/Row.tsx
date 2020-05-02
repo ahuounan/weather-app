@@ -2,14 +2,16 @@ import React from 'react';
 
 import { buildStyles } from './styles';
 import { Box } from '../Box';
+import { CSSObjects } from 'types/styles';
 
 interface Props {
   children: React.ReactNode;
+  styles?: CSSObjects;
 }
 
 export const Row = (props: Props) => {
-  const { children } = props;
-  const styles = buildStyles();
+  const { children, styles } = props;
+  const defaultStyles = buildStyles();
 
-  return <Box css={styles.row}>{children}</Box>;
+  return <Box styles={[defaultStyles.row, styles]}>{children}</Box>;
 };

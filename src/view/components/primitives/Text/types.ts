@@ -26,7 +26,8 @@ export type SharedTextProps = {
   styles?: CSSObjects;
 };
 
-export type TextProps = (ParagraphProps | LabelProps | HeadingProps) & SharedTextProps;
+export type TextProps = (ParagraphProps | LabelProps | HeadingProps) &
+  SharedTextProps;
 
 export enum TextType {
   HEADER = 'HEADER',

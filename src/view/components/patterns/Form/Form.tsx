@@ -5,7 +5,10 @@ import { Row } from 'view/components/layouts/Row';
 import { Text } from 'view/components/primitives/Text';
 import { TextType, TextComponent } from 'view/components/primitives/Text/types';
 import { Input } from 'view/components/primitives/Input';
-import { InputType, InputComponent } from 'view/components/primitives/Input/types';
+import {
+  InputType,
+  InputComponent
+} from 'view/components/primitives/Input/types';
 
 import { buildStyles } from './styles';
 import { InputConfig, FormData, FormState } from './types';
@@ -37,7 +40,12 @@ export const Form = (props: Props) => {
 
           return (
             <Row css={styles.row} key={key}>
-              <Text css={styles.label} htmlFor={key} as={TextComponent.LABEL} type={TextType.BODY}>
+              <Text
+                css={styles.label}
+                htmlFor={key}
+                as={TextComponent.LABEL}
+                type={TextType.BODY}
+              >
                 {label}
               </Text>
               <Input

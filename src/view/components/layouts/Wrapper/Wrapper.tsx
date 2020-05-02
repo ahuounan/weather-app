@@ -1,14 +1,16 @@
 import React from 'react';
 import { Row } from '../Row';
 import { buildStyles } from './styles';
+import { CSSObjects } from 'types/styles';
 
 interface Props {
   children: React.ReactNode;
+  styles?: CSSObjects;
 }
 
 export const Wrapper = (props: Props) => {
-  const { children } = props;
-  const styles = buildStyles();
+  const { children, styles } = props;
+  const defaultStyles = buildStyles();
 
-  return <Row css={styles.wrapper}>{children}</Row>;
+  return <Row styles={[defaultStyles.wrapper, styles]}>{children}</Row>;
 };

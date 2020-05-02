@@ -13,7 +13,10 @@ export const Input = (props: InputProps) => {
       const remainingProps = omit(props, 'children', 'css', 'type');
 
       return (
-        <button css={[styles.default, styles[InputType.BUTTON], css]} {...remainingProps}>
+        <button
+          css={[styles.default, styles[InputType.BUTTON], css]}
+          {...remainingProps}
+        >
           {children}
         </button>
       );
