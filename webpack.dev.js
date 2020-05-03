@@ -1,10 +1,12 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+const CompressionPlugin = require('compression-webpack-plugin');
+
 require('dotenv').config();
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   devtool: 'source-map',
   devServer: {
     hot: true
@@ -19,21 +21,6 @@ module.exports = {
         loader: 'babel-loader',
         include: /src/,
         options: { cacheDirectory: true }
-      },
-      {
-        test: /\.ts(x?)$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'ts-loader',
-            options: {
-              transpileOnly: true
-            }
-          },
-          {
-            loader: 'eslint-loader'
-          }
-        ]
       },
       {
         enforce: 'pre',

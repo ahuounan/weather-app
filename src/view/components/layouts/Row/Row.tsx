@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { buildStyles } from './styles';
-import { Box } from '../Box';
 import { CSSObjects } from 'types/styles';
+
+import { Box } from '../Box';
+import { buildStyles } from './styles';
 
 interface Props {
   children: React.ReactNode;
