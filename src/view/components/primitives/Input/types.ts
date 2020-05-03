@@ -4,7 +4,7 @@ import { CSSObjects } from 'types/styles';
 
 export type RawInputProps = React.HTMLProps<HTMLInputElement> & {
   as: InputComponent.INPUT;
-  type: InputType.SUBMIT | InputType.TEXT | InputType.RADIO;
+  type: InputType.SUBMIT | InputType.TEXT | InputType.CHECKBOX | InputType.RADIO;
 };
 
 export type ButtonProps = React.HTMLProps<HTMLButtonElement> & {
@@ -27,5 +27,6 @@ export enum InputType {
   BUTTON = 'BUTTON',
   SUBMIT = 'SUBMIT',
   TEXT = 'TEXT',
+  CHECKBOX = 'CHECKBOX',
   RADIO = 'RADIO'
 }

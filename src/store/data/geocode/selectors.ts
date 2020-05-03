@@ -7,16 +7,10 @@ const getSearchResultByQuery = (state: RootState, query: string) =>
 
 const getLocationData = (state: RootState) => state.geocode.locationData;
 
-const getDenormalizedSearchResultByQuery = (
-  state: RootState,
-  query: string
-) => {
+const getDenormalizedSearchResultByQuery = (state: RootState, query: string) => {
   const results = getSearchResultByQuery(state, query);
   const locationData = getLocationData(state);
-  const denormalizedResults = geocodeTransformers.denormalizeResults(
-    results,
-    locationData
-  );
+  const denormalizedResults = geocodeTransformers.denormalizeResults(results, locationData);
   return denormalizedResults;
 };
 

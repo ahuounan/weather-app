@@ -3,10 +3,12 @@ import { omit } from 'lodash';
 
 import { buildStyles } from './styles';
 import { TextProps, TextComponent } from './types';
+import { useTheme } from 'view/theme/hooks';
 
 export const Text = (props: TextProps) => {
   const { children } = props;
-  const styles = buildStyles();
+  const theme = useTheme();
+  const styles = buildStyles(theme);
 
   switch (props.as) {
     case TextComponent.P: {

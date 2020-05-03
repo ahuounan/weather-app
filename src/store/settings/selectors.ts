@@ -1,4 +1,10 @@
 import { RootState } from 'store/types';
 
-export const getTemperatureUnit = (state: RootState) =>
-  state.settings.temperatureUnit;
+const getTemperatureUnit = (state: RootState) => state.settings.temperatureUnit;
+
+const getSettings = (state: RootState) => state.settings;
+
+export const settingsSelectors = {
+  getTemperatureUnit,
+  getSettings
+};

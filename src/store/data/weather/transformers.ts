@@ -25,18 +25,11 @@ const openWeatherDataToData = (data: OpenWeatherData): WeatherDataBase => {
     windDeg: data.wind_deg,
     rain: data.rain,
     snow: data.snow,
-    weather: {
-      id: data.weather?.id,
-      main: data.weather?.main,
-      description: data.weather?.description,
-      icon: data.weather?.icon
-    }
+    weather: data.weather[0]
   };
 };
 
-const openWeatherCurrentToData = (
-  current: OpenWeatherCurrentData
-): WeatherCurrentData => {
+const openWeatherCurrentToData = (current: OpenWeatherCurrentData): WeatherCurrentData => {
   /* eslint-disable-next-line  @typescript-eslint/camelcase */
   const { sunrise, sunset, temp, feels_like, ...data } = current;
   return {
@@ -49,9 +42,7 @@ const openWeatherCurrentToData = (
   };
 };
 
-const openWeatherHourlyToData = (
-  hourly: OpenWeatherHourlyData
-): WeatherHourlyData => {
+const openWeatherHourlyToData = (hourly: OpenWeatherHourlyData): WeatherHourlyData => {
   /* eslint-disable-next-line  @typescript-eslint/camelcase */
   const { temp, feels_like, ...data } = hourly;
   return {
@@ -62,9 +53,7 @@ const openWeatherHourlyToData = (
   };
 };
 
-const openWeatherDailyToData = (
-  daily: OpenWeatherDailyData
-): WeatherDailyData => {
+const openWeatherDailyToData = (daily: OpenWeatherDailyData): WeatherDailyData => {
   /* eslint-disable-next-line  @typescript-eslint/camelcase */
   const { sunrise, sunset, temp, feels_like, ...data } = daily;
   return {
@@ -77,9 +66,7 @@ const openWeatherDailyToData = (
   };
 };
 
-const openWeatherOneCallResponseToData = (
-  response: WeatherFetchResponsePayload
-): WeatherData => {
+const openWeatherOneCallResponseToData = (response: WeatherFetchResponsePayload): WeatherData => {
   return {
     lat: response.lat,
     lon: response.lon,

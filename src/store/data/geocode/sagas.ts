@@ -16,17 +16,12 @@ function* handleGeocodeQuery(action: BasicAction<GeocodeQueryPayload>) {
   yield put(GeocodeActions.geocodeFetchRequest({ placename: cleanedQuery }));
 }
 
-function* handleGeocodeFetchRequest(
-  action: BasicAction<GeocodeFetchRequestPayload>
-) {
+function* handleGeocodeFetchRequest(action: BasicAction<GeocodeFetchRequestPayload>) {
   try {
     const {
       payload: { placename }
     } = action;
-    const existingData = yield* select(
-      geocodeSelectors.getSearchResultByQuery,
-      placename
-    );
+    const existingData = yield* select(geocodeSelectors.getSearchResultByQuery, placename);
 
     if (existingData) {
       yield put(GeocodeActions.geocodeReturnCached());
@@ -49,9 +44,5 @@ function* handleGeocodeFetchRequest(
 
 export const GeocodeSagas = [
   takeLatest(GeocodeActionTypes.GEOCODE_QUERY, handleGeocodeQuery),
-  debounce(
-    500,
-    GeocodeActionTypes.GEOCODE_FETCH_REQUEST,
-    handleGeocodeFetchRequest
-  )
+  debounce(500, GeocodeActionTypes.GEOCODE_FETCH_REQUEST, handleGeocodeFetchRequest)
 ];
