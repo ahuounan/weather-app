@@ -41,8 +41,8 @@ export const Row = (props: Props) => {
           '& > *': {
             alignSelf: verticalAlignment
           },
-          alignItems: horizontalAlignment,
-          justifyContent: verticalAlignment,
+          alignItems: verticalAlignment,
+          justifyContent: horizontalAlignment,
           padding: padding && makeRem(theme.scale[padding])
         }
       ]}

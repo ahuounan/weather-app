@@ -120,10 +120,12 @@ export interface OpenWeatherData {
   wind_deg: number;
   rain: number;
   snow: number;
-  weather: {
-    id: number;
-    main: string;
-    description: string;
-    icon: string;
-  };
+  weather: [
+    {
+      id: number;
+      main: string;
+      description: string;
+      icon: string;
+    }
+  ];
 }

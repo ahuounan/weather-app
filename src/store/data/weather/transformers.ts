@@ -25,12 +25,7 @@ const openWeatherDataToData = (data: OpenWeatherData): WeatherDataBase => {
     windDeg: data.wind_deg,
     rain: data.rain,
     snow: data.snow,
-    weather: {
-      id: data.weather?.id,
-      main: data.weather?.main,
-      description: data.weather?.description,
-      icon: data.weather?.icon
-    }
+    weather: data.weather[0]
   };
 };
 

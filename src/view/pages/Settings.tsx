@@ -23,14 +23,16 @@ export const Settings = () => {
 
   return (
     <Stack gap={1}>
-      <Text as={TextComponent.H1} type={TextType.HEADER}>
-        Settings
-      </Text>
-      <Input as={InputComponent.BUTTON} type={InputType.BUTTON} onClick={() => history.goBack()}>
-        <Text as={TextComponent.P} type={TextType.BODY}>
-          Back
+      <Row gap={1} verticalAlignment="center" horizontalAlignment="flex-start">
+        <Text as={TextComponent.H1} type={TextType.HEADER}>
+          Settings
         </Text>
-      </Input>
+        <Input as={InputComponent.BUTTON} type={InputType.BUTTON} onClick={() => history.goBack()}>
+          <Text as={TextComponent.P} type={TextType.BODY}>
+            Back
+          </Text>
+        </Input>
+      </Row>
       <Stack gap={1}>
         <Row gap={1}>
           <InputRadio
@@ -76,7 +78,7 @@ export const Settings = () => {
             ]}
           />
         </Row>
-        <Row gap={1}>
+        <Stack gap={1}>
           <Text as={TextComponent.P} type={TextType.BODY}>
             Data Points
           </Text>
@@ -90,7 +92,7 @@ export const Settings = () => {
               />
             ))}
           </Grid>
-        </Row>
+        </Stack>
       </Stack>
     </Stack>
   );
