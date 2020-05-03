@@ -9,10 +9,7 @@ const initialState: GeocodeState = {
   locationData: {}
 };
 
-export const geocodeReducer = (
-  state = initialState,
-  action: GeocodeActions
-) => {
+export const geocodeReducer = (state = initialState, action: GeocodeActions) => {
   switch (action.type) {
     case GeocodeActionTypes.GEOCODE_FETCH_REQUEST: {
       return {
@@ -36,11 +33,9 @@ export const geocodeReducer = (
     }
     case GeocodeActionTypes.GEOCODE_FETCH_SUCCESS: {
       const rawData = action.payload;
-      const {
-        placename,
-        searchResults,
-        locationData
-      } = geocodeTransformers.normalizeResponse(rawData);
+      const { placename, searchResults, locationData } = geocodeTransformers.normalizeResponse(
+        rawData
+      );
 
       return {
         ...state,

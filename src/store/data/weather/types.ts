@@ -7,8 +7,7 @@ export interface WeatherState {
   };
 }
 
-export interface WeatherFetchResponsePayload
-  extends OpenWeatherOneCallResponse {}
+export interface WeatherFetchResponsePayload extends OpenWeatherOneCallResponse {}
 
 export interface WeatherFetchRequestPayload {
   lng: number;

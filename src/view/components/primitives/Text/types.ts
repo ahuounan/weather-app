@@ -6,7 +6,7 @@ export type ParagraphProps = React.HTMLProps<HTMLParagraphElement> & {
 };
 
 export type LabelProps = React.HTMLProps<HTMLLabelElement> & {
-  type: TextType.BODY;
+  type: TextType.BODY | TextType.SUBHEADER;
   as: TextComponent.LABEL;
 };
 
@@ -26,8 +26,7 @@ export type SharedTextProps = {
   styles?: CSSObjects;
 };
 
-export type TextProps = (ParagraphProps | LabelProps | HeadingProps) &
-  SharedTextProps;
+export type TextProps = (ParagraphProps | LabelProps | HeadingProps) & SharedTextProps;
 
 export enum TextType {
   HEADER = 'HEADER',

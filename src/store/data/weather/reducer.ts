@@ -9,10 +9,7 @@ const initialState = {
   data: {}
 };
 
-export const weatherReducer = (
-  state = initialState,
-  action: WeatherActions
-) => {
+export const weatherReducer = (state = initialState, action: WeatherActions) => {
   switch (action.type) {
     case WeatherActionTypes.WEATHER_FETCH_REQUEST: {
       return {
@@ -29,21 +26,14 @@ export const weatherReducer = (
     }
     case WeatherActionTypes.WEATHER_FETCH_SUCCESS: {
       const { lat, lon } = action.payload;
-      console.log(
-        weatherTransformers.openWeatherOneCallResponseToData(action.payload)
-      );
+
       return {
         ...state,
         fetching: false,
         error: false,
         data: {
           ...state.data,
-          [getKey(
-            lat,
-            lon
-          )]: weatherTransformers.openWeatherOneCallResponseToData(
-            action.payload
-          )
+          [getKey(lat, lon)]: weatherTransformers.openWeatherOneCallResponseToData(action.payload)
         }
       };
     }
