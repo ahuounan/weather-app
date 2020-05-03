@@ -45,7 +45,6 @@ module.exports = {
       title: 'Weather App',
       filename: './index.html', //relative to root of the application
       template: './index.html'
-    }),
-    new CompressionPlugin()
+    })
   ]
 };
