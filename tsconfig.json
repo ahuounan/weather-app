@@ -24,5 +24,5 @@
   "include": [
     "src/**/*" // *** The files TypeScript should type check ***
   ],
-  "exclude": ["node_modules", "dist"] // *** The files to not type check ***
+  "exclude": ["node_modules", "webpack", "jest", "dist"] // *** The files to not type check ***
 }

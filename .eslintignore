@@ -4,3 +4,4 @@ webpack.dev.js
 webpack.prod.js
 .prettierrc.js
 .eslintrc.js
+jest.config.js
