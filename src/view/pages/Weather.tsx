@@ -87,7 +87,7 @@ export const Weather = () => {
       {weatherData?.current && (
         <WrapRow gap={4} horizontalAlignment="center" padding={1}>
           <Text as={TextComponent.H1} type={TextType.HEADER}>
-            {formatTime(new Date(weatherData?.current?.timestamp), weatherData.timezone)}
+            {formatTime(new Date(weatherData?.current?.timestamp * 1000), weatherData.timezone)}
           </Text>
           <Text as={TextComponent.H1} type={TextType.HEADER}>
             {weatherData?.current?.weather.icon}
