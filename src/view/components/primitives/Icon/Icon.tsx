@@ -5,5 +5,6 @@ import { buildStyles } from './styles';
 interface Props {}
 
 export const Icon = (props: Props) => {
-  return <img {...props} />;
+  const styles = buildStyles();
+  return <img css={styles} {...props} />;
 };

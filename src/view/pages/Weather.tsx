@@ -12,11 +12,6 @@ import { TextComponent, TextType } from 'view/components/primitives/Text/types';
 import { weatherSelectors } from 'store/data/weather/selectors';
 import { Row } from 'view/components/layouts/Row';
 import { Wrapper } from 'view/components/layouts/Wrapper';
-import {
-  InputType,
-  InputComponent
-} from 'view/components/primitives/Input/types';
-import { Input } from 'view/components/primitives/Input';
 
 const formatDate = (date: Date) => {
   const options = {

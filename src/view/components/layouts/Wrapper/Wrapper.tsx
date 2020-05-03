@@ -1,7 +1,8 @@
 import React from 'react';
+import { CSSObjects } from 'types/styles';
+
 import { Row } from '../Row';
 import { buildStyles } from './styles';
-import { CSSObjects } from 'types/styles';
 
 interface Props {
   children: React.ReactNode;

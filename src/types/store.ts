@@ -15,7 +15,9 @@ export function createAction<T extends string, P>(type: T, payload?: P) {
   return payload === undefined ? { type } : { type, payload };
 }
 
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 export type FunctionType = (...args: any[]) => any;
+
 export interface ActionCreatorsMapObject {
   [actionCreator: string]: FunctionType;
 }
