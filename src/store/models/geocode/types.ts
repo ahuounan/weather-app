@@ -3,8 +3,10 @@ import { Geocode } from 'models/geocode';
 export interface GeocodeState {
   fetching: boolean;
   error: boolean;
-  searchResults: Record<string, GeocodeSearchResults>;
-  locationData: GeocodeLocationData;
+  data: {
+    searchResults: Record<string, GeocodeSearchResults>;
+    locationData: GeocodeLocationData;
+  };
 }
 
 export interface GeocodeFetchRequestPayload {
@@ -13,16 +15,12 @@ export interface GeocodeFetchRequestPayload {
 
 export interface GeocodeFetchSuccessPayload {
   placename: string;
-  searchResults: GeocodeSearchResults;
+  searchResult: GeocodeSearchResults;
   locationData: Record<string, Geocode>;
 }
 
-export interface DenormalizedGeocodeSearchResults extends GeocodeSearchResults {
-  results: Geocode[];
-}
+export type DenormalizedGeocodeSearchResults = Geocode[];
 
-export interface GeocodeSearchResults {
-  resultIds: string[];
-}
+export type GeocodeSearchResults = string[];
 
 export type GeocodeLocationData = Record<string, Geocode>;

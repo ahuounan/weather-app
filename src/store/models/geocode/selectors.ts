@@ -5,23 +5,28 @@ import { geocodeTransformers } from './transformers';
 const getState = (state: RootState) => state.models.geocode;
 const getFetching = (state: RootState) => getState(state).fetching;
 const getError = (state: RootState) => getState(state).error;
-const getSearchResults = (state: RootState) => getState(state).searchResults;
-const getLocationData = (state: RootState) => getState(state).locationData;
+const getData = (state: RootState) => getState(state).data;
+const getSearchResults = (state: RootState) => getState(state).data.searchResults;
+const getLocationData = (state: RootState) => getState(state).data.locationData;
 
-const makeGetDataByQuery = (query: string) => (state: RootState) => getLocationData(state)[query];
+const makeGetResultsByQuery = (query: string) => (state: RootState) =>
+  getSearchResults(state)[query];
 
 const makeGetDenormalizedSearchResult = (query: string) => (state: RootState) => {
   const searchResult = getSearchResults(state)[query];
   const locationData = getLocationData(state);
+  const result = geocodeTransformers.denormalizeResults(searchResult, locationData);
 
-  return geocodeTransformers.denormalizeResults(searchResult, locationData);
+  return result;
 };
 
 export const geocodeSelectors = {
+  getState,
   getFetching,
   getError,
+  getData,
   getSearchResults,
   getLocationData,
-  makeGetDataByQuery,
+  makeGetResultsByQuery,
   makeGetDenormalizedSearchResult
 };
