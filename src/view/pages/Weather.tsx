@@ -4,20 +4,20 @@ import { Link } from 'react-router-dom';
 
 import { icons } from 'assets';
 
+import { WeatherActions } from 'store/data/weather/actions';
 import { useSelector } from 'store/hooks';
-import { weatherViewSelectors } from 'store/view/weather/selectors';
+import { selectors } from 'store/selectors';
 
 import { Row } from 'view/components/layouts/Row';
 import { Stack } from 'view/components/layouts/Stack';
 import { Icon } from 'view/components/primitives/Icon';
 import { CurrentWeatherDisplay } from 'view/containers/CurrentWeatherDisplay';
 import { DataRow } from 'view/containers/DataRow';
-import { WeatherActions } from 'store/data/weather/actions';
 import { WeatherHeader } from 'view/containers/WeatherHeader';
 
 export const Weather = () => {
   const dispatch = useDispatch();
-  const { lat, lng } = useSelector(weatherViewSelectors.getLocation);
+  const { lat, lng } = useSelector(selectors.view.weather.getLocation);
 
   React.useEffect(() => {
     dispatch(WeatherActions.startSubscription());

@@ -4,14 +4,14 @@ import { useDispatch } from 'react-redux';
 import { DataSection } from 'models/settings';
 
 import { useSelector } from 'store/hooks';
+import { selectors } from 'store/selectors';
 import { SettingsActions } from 'store/view/settings/actions';
-import { settingsSelectors } from 'store/view/settings/selectors';
 
 import { InputRadio } from 'view/components/patterns/InputRadio';
 
 export const DataSeriesSelect = () => {
   const dispatch = useDispatch();
-  const dataSeries = useSelector(settingsSelectors.getCurrentDataSeries);
+  const dataSeries = useSelector(selectors.view.settings.getCurrentDataSeries);
 
   return (
     <InputRadio

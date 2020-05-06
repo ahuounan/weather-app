@@ -1,11 +1,13 @@
 import { call, put, select, debounce, takeLatest } from 'typed-redux-saga';
 
-import { storage } from 'services/storage';
+import { storage } from 'services';
+
+import { selectors } from 'store/selectors';
+
 import { BasicAction } from 'types/store';
 
 import { GeocodeActionTypes, GeocodeActions } from './actions';
 import { GeocodeApi } from './api';
-import { getCurrentSearchResult } from 'store/selectors';
 import { geocodeTransformers } from './transformers';
 import { GeocodeFetchRequestPayload } from './types';
 
@@ -16,7 +18,7 @@ function* handleGeocodeQuery(action: BasicAction<GeocodeFetchRequestPayload>) {
 
   const cleanedQuery = geocodeTransformers.cleanQuery(placename);
 
-  const existingData = yield* select(getCurrentSearchResult);
+  const existingData = yield* select(selectors.getCurrentSearchResult);
   if (existingData) {
     yield put(GeocodeActions.returnCached());
     return;

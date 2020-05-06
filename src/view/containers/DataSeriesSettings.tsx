@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux';
 
 import { DataSection } from 'models/settings';
 
-import { SettingsActions } from 'store/view/settings/actions';
 import { useSelector } from 'store/hooks';
-import { settingsSelectors } from 'store/view/settings/selectors';
+import { selectors } from 'store/selectors';
+import { SettingsActions } from 'store/view/settings/actions';
 
 import { Grid } from 'view/components/layouts/Grid';
 import { Stack } from 'view/components/layouts/Stack';
@@ -20,7 +20,7 @@ interface Props {
 export const DataSeriesSettings = (props: Props) => {
   const { section } = props;
   const dispatch = useDispatch();
-  const getSettings = settingsSelectors.makeGetDataSeriesSettings(section);
+  const getSettings = selectors.view.settings.makeGetDataSeriesSettings(section);
   const settings = useSelector(getSettings);
 
   return (

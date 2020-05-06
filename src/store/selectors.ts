@@ -10,26 +10,25 @@ import { settingsSelectors } from './view/settings/selectors';
 import { weatherViewSelectors } from './view/weather/selectors';
 
 import { RootState } from './types';
+import { dataSelectors } from './data/selectors';
+import { viewSelectors } from './view/selectors';
 
-export const getLocationWeather = (state: RootState) => {
+const getLocationWeather = (state: RootState) => {
   const { lat, lng } = weatherViewSelectors.getLocation(state);
   const key = getKey(lat, lng);
   const getData = weatherSelectors.makeGetDataByKey(key);
 
   return getData(state);
 };
+const getLocationTimezone = (state: RootState) => getLocationWeather(state).timezone;
+const getLocationLat = (state: RootState) => getLocationWeather(state).lat;
+const getLocationLng = (state: RootState) => getLocationWeather(state).lng;
+const getLocationKey = (state: RootState) => getKey(getLocationLat(state), getLocationLng(state));
+const getLocationDailyWeather = (state: RootState) => getLocationWeather(state).daily;
+const getLocationHourlyWeather = (state: RootState) => getLocationWeather(state).hourly;
+const getLocationCurrentWeather = (state: RootState) => getLocationWeather(state).current;
 
-export const getLocationTimezone = (state: RootState) => getLocationWeather(state).timezone;
-export const getLocationLat = (state: RootState) => getLocationWeather(state).lat;
-export const getLocationLng = (state: RootState) => getLocationWeather(state).lng;
-export const getLocationKey = (state: RootState) =>
-  getKey(getLocationLat(state), getLocationLng(state));
-
-export const getLocationDailyWeather = (state: RootState) => getLocationWeather(state).daily;
-export const getLocationHourlyWeather = (state: RootState) => getLocationWeather(state).hourly;
-export const getLocationCurrentWeather = (state: RootState) => getLocationWeather(state).current;
-
-export const getDisplayedLocationDailyWeather = (state: RootState) => {
+const getDisplayedLocationDailyWeather = (state: RootState) => {
   const weather = getLocationDailyWeather(state);
   const settings = settingsSelectors.getDailySettings(state);
 
@@ -46,8 +45,7 @@ export const getDisplayedLocationDailyWeather = (state: RootState) => {
     return filteredData;
   });
 };
-
-export const getDisplayedLocationHourlyWeather = (state: RootState) => {
+const getDisplayedLocationHourlyWeather = (state: RootState) => {
   const weather = getLocationHourlyWeather(state);
   const settings = settingsSelectors.getHourlySettings(state);
 
@@ -64,8 +62,7 @@ export const getDisplayedLocationHourlyWeather = (state: RootState) => {
     return filteredData;
   });
 };
-
-export const getDisplayedLocationCurrentWeather = (state: RootState) => {
+const getDisplayedLocationCurrentWeather = (state: RootState) => {
   const data = getLocationCurrentWeather(state);
   if (!data) {
     return undefined;
@@ -83,8 +80,7 @@ export const getDisplayedLocationCurrentWeather = (state: RootState) => {
 
   return filteredData;
 };
-
-export const getDisplayedLocationDataSeries = (state: RootState) => {
+const getDisplayedLocationDataSeries = (state: RootState) => {
   const dataSeries = settingsSelectors.getCurrentDataSeries(state);
 
   switch (dataSeries) {
@@ -100,16 +96,40 @@ export const getDisplayedLocationDataSeries = (state: RootState) => {
   }
 };
 
-export const getLocationLabel = (state: RootState) => {
-  const { lat, lng } = weatherViewSelectors.getLocation(state);
+const getLocationLabel = (state: RootState) => {
+  const lat = getLocationLat(state);
+  const lng = getLocationLng(state);
 
   return geocodeSelectors.getLocationData(state)[getKey(lat, lng)]?.label;
 };
 
-export const getCurrentSearchResult = (state: RootState) => {
+const getCurrentSearchResult = (state: RootState) => {
   const query = searchSelectors.getQuery(state);
   const getDenormalizedSearchResults = geocodeSelectors.makeGetDenormalizedSearchResult(query);
   const searchResults = getDenormalizedSearchResults(state);
 
   return searchResults;
+};
+
+export const selectors = {
+  location: {
+    getWeather: getLocationWeather,
+    getTimezone: getLocationTimezone,
+    getLat: getLocationLat,
+    getLng: getLocationLng,
+    getKey: getLocationKey,
+    getLabel: getLocationLabel,
+    getDailyWeather: getLocationDailyWeather,
+    getHourlyWeather: getLocationHourlyWeather,
+    getCurrentWeather: getLocationCurrentWeather
+  },
+  displayed: {
+    getDailyWeather: getDisplayedLocationDailyWeather,
+    getHourlyWeather: getDisplayedLocationHourlyWeather,
+    getCurrentWeather: getDisplayedLocationCurrentWeather,
+    getDataSeries: getDisplayedLocationDataSeries
+  },
+  getCurrentSearchResult,
+  data: dataSelectors,
+  view: viewSelectors
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { omit, map } from 'lodash';
 
 import { useSelector } from 'store/hooks';
-import { getDisplayedLocationDataSeries, getLocationTimezone } from 'store/selectors';
+import { selectors } from 'store/selectors';
 
 import { formatTime } from 'utils';
 
@@ -13,9 +13,9 @@ import { WeatherHourly, WeatherDaily } from 'models/weather';
 
 export const DataRow = () => {
   const dataSeries: (Partial<WeatherDaily> | Partial<WeatherHourly>)[] | null = useSelector(
-    getDisplayedLocationDataSeries
+    selectors.displayed.getDataSeries
   );
-  const timezone = useSelector(getLocationTimezone);
+  const timezone = useSelector(selectors.location.getTimezone);
 
   if (!dataSeries) return <div>loading</div>;
 

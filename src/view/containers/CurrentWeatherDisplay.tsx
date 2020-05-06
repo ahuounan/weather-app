@@ -9,13 +9,13 @@ import { Stack } from 'view/components/layouts/Stack';
 import { Icon } from 'view/components/primitives/Icon';
 import { Text } from 'view/components/primitives/Text';
 import { TextComponent, TextType } from 'view/components/primitives/Text/types';
-import { getLocationCurrentWeather, getLocationTimezone } from 'store/selectors';
+import { selectors } from 'store/selectors';
 
 export const CurrentWeatherDisplay = () => {
   const convertTemperature = useConvertTemperature();
 
-  const timezone = useSelector(getLocationTimezone);
-  const weatherData = useSelector(getLocationCurrentWeather);
+  const timezone = useSelector(selectors.location.getTimezone);
+  const weatherData = useSelector(selectors.location.getCurrentWeather);
 
   if (!weatherData) return <div>loading</div>;
 

@@ -1,6 +1,7 @@
 import { DataSection } from 'models/settings';
 
 import { RootState } from 'store/types';
+
 import { viewSelectors } from '../selectors';
 
 const getState = (state: RootState) => viewSelectors.getState(state).settings;

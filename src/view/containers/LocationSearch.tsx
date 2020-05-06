@@ -5,11 +5,10 @@ import { Link } from 'react-router-dom';
 import { Geocode } from 'models/geocode';
 
 import { GeocodeActions } from 'store/data/geocode/actions';
-import { geocodeSelectors } from 'store/data/geocode/selectors';
 import { useSelector } from 'store/hooks';
-import { searchSelectors } from 'store/view/search/selectors';
 import { SearchActions } from 'store/view/search/actions';
 import { WeatherViewActions } from 'store/view/weather/actions';
+import { selectors } from 'store/selectors';
 
 import { Stack } from 'view/components/layouts/Stack';
 import { Scroller } from 'view/components/layouts/Scroller';
@@ -17,14 +16,13 @@ import { Text } from 'view/components/primitives/Text';
 import { TextComponent, TextType } from 'view/components/primitives/Text/types';
 import { Input } from 'view/components/primitives/Input';
 import { InputComponent, InputType } from 'view/components/primitives/Input/types';
-import { getCurrentSearchResult } from 'store/selectors';
 
 export const LocationSearch = () => {
   const dispatch = useDispatch();
-
-  const query = useSelector(searchSelectors.getQuery);
-  const results = useSelector(getCurrentSearchResult);
-  const isFetching = useSelector(geocodeSelectors.getFetching);
+  console.log(selectors.view);
+  const query = useSelector(selectors.view.search.getQuery);
+  const results = useSelector(selectors.getCurrentSearchResult);
+  const isFetching = useSelector(selectors.data.geocode.getFetching);
 
   React.useEffect(() => {
     dispatch(GeocodeActions.query({ placename: query }));

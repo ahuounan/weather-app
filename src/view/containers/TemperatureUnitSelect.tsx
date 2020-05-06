@@ -5,14 +5,14 @@ import { TemperatureUnit } from 'models/settings';
 
 import { useSelector } from 'store/hooks';
 import { SettingsActions } from 'store/view/settings/actions';
-import { settingsSelectors } from 'store/view/settings/selectors';
+import { selectors } from 'store/selectors';
 
 import { InputRadio } from 'view/components/patterns/InputRadio';
 
 export const TemperatureUnitSelect = () => {
   const dispatch = useDispatch();
 
-  const temperatureUnit = useSelector(settingsSelectors.getTemperatureUnit);
+  const temperatureUnit = useSelector(selectors.view.settings.getTemperatureUnit);
 
   return (
     <InputRadio
