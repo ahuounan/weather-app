@@ -17,12 +17,13 @@ import { Text } from 'view/components/primitives/Text';
 import { TextComponent, TextType } from 'view/components/primitives/Text/types';
 import { Input } from 'view/components/primitives/Input';
 import { InputComponent, InputType } from 'view/components/primitives/Input/types';
+import { getCurrentSearchResult } from 'store/selectors';
 
 export const LocationSearch = () => {
   const dispatch = useDispatch();
 
   const query = useSelector(searchSelectors.getQuery);
-  const results = useSelector(geocodeSelectors.getDenormalizedCurrentSearchResult);
+  const results = useSelector(getCurrentSearchResult);
   const isFetching = useSelector(geocodeSelectors.getFetching);
 
   React.useEffect(() => {

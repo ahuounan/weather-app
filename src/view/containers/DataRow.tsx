@@ -1,50 +1,28 @@
 import React from 'react';
 import { omit, map } from 'lodash';
 
-import { DataSeries } from 'models/settings';
-import { WeatherDaily, WeatherHourly } from 'models/weather';
-
-import { weatherSelectors } from 'store/data/weather/selectors';
 import { useSelector } from 'store/hooks';
-import { settingsSelectors } from 'store/view/settings/selectors';
-import { RootState } from 'store/types';
+import { getDisplayedLocationDataSeries, getLocationTimezone } from 'store/selectors';
 
 import { formatTime } from 'utils';
 
 import { Row } from 'view/components/layouts/Row';
 import { Scroller } from 'view/components/layouts/Scroller';
 import { WeatherCard } from 'view/components/patterns/WeatherCard';
-
-const getCurrentLocationDataSeries = (state: RootState) => {
-  const dataSeries = settingsSelectors.getCurrentDataSeries(state);
-  const dailyWeatherData = weatherSelectors.getDailyWeatherData(state);
-  const hourlyWeatherData = weatherSelectors.getHourlyWeatherData(state);
-
-  switch (dataSeries) {
-    case DataSeries.DAILY: {
-      return dailyWeatherData;
-    }
-    case DataSeries.HOURLY: {
-      return hourlyWeatherData;
-    }
-    default: {
-      return hourlyWeatherData;
-    }
-  }
-};
+import { WeatherHourly, WeatherDaily } from 'models/weather';
 
 export const DataRow = () => {
-  const dataSeries = useSelector<(Partial<WeatherDaily> | Partial<WeatherHourly>)[]>(
-    getCurrentLocationDataSeries
+  const dataSeries: (Partial<WeatherDaily> | Partial<WeatherHourly>)[] | null = useSelector(
+    getDisplayedLocationDataSeries
   );
-  const timezone = useSelector(weatherSelectors.getTimezone);
+  const timezone = useSelector(getLocationTimezone);
 
   if (!dataSeries) return <div>loading</div>;
 
   return (
     <Scroller scrollX>
       <Row gap={1}>
-        {dataSeries.map(data => {
+        {dataSeries?.map(data => {
           const dataPoints = map(omit(data, 'time', 'icon', 'description'), (value, label) => ({
             value: String(value),
             label

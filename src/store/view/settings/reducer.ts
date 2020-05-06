@@ -1,11 +1,11 @@
-import { TemperatureUnit, DataSeries, DataSection } from 'models/settings';
+import { TemperatureUnit, DataSection } from 'models/settings';
 
 import { SettingsActionTypes, SettingsActions } from './actions';
 import { SettingsState } from './types';
 
 const initialState: SettingsState = {
   temperatureUnit: TemperatureUnit.KELVIN,
-  currentDataSeries: DataSeries.HOURLY,
+  currentDataSeries: DataSection.HOURLY,
   current: {
     temp: true,
     feelsLike: false,

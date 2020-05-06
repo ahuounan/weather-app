@@ -18,10 +18,7 @@ export enum TemperatureUnit {
   FAHRENHEIT = 'fahrenheit'
 }
 
-export enum DataSeries {
-  HOURLY = 'hours',
-  DAILY = 'days'
-}
+export type DataSeries = DataSection.HOURLY | DataSection.DAILY;
 
 export enum DataSection {
   CURRENT = 'current',

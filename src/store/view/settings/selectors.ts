@@ -1,12 +1,14 @@
-import { DataSeries, DataSection } from 'models/settings';
+import { DataSection } from 'models/settings';
+
 import { RootState } from 'store/types';
+import { viewSelectors } from '../selectors';
 
-const getTemperatureUnit = (state: RootState) => state.view.settings.temperatureUnit;
-
-const getCurrentDataSeries = (state: RootState) => state.view.settings.currentDataSeries;
-const getCurrentSettings = (state: RootState) => state.view.settings[DataSection.CURRENT];
-const getHourlySettings = (state: RootState) => state.view.settings.dataSeries[DataSection.HOURLY];
-const getDailySettings = (state: RootState) => state.view.settings.dataSeries[DataSection.DAILY];
+const getState = (state: RootState) => viewSelectors.getState(state).settings;
+const getTemperatureUnit = (state: RootState) => getState(state).temperatureUnit;
+const getCurrentDataSeries = (state: RootState) => getState(state).currentDataSeries;
+const getCurrentSettings = (state: RootState) => getState(state)[DataSection.CURRENT];
+const getHourlySettings = (state: RootState) => getState(state).dataSeries[DataSection.HOURLY];
+const getDailySettings = (state: RootState) => getState(state).dataSeries[DataSection.DAILY];
 
 const makeGetDataSeriesSettings = (section: DataSection) => (state: RootState) => {
   switch (section) {
@@ -27,18 +29,9 @@ const makeGetDataSeriesSettings = (section: DataSection) => (state: RootState) =
 
 const getCurrentDataSeriesSettings = (state: RootState) => {
   const currentDataSeries = getCurrentDataSeries(state);
+  const getDataSeriesSettings = makeGetDataSeriesSettings(currentDataSeries);
 
-  switch (currentDataSeries) {
-    case DataSeries.DAILY: {
-      return state.view.settings.dataSeries.daily;
-    }
-    case DataSeries.HOURLY: {
-      return state.view.settings.dataSeries.hourly;
-    }
-    default: {
-      return null;
-    }
-  }
+  return getDataSeriesSettings(state);
 };
 
 export const settingsSelectors = {

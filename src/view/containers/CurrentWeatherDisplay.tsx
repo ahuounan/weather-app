@@ -2,7 +2,6 @@ import React from 'react';
 
 import { useSelector } from 'store/hooks';
 import { useConvertTemperature } from 'store/view/settings/hooks';
-import { weatherSelectors } from 'store/data/weather/selectors';
 
 import { formatTime } from 'utils';
 
@@ -10,12 +9,13 @@ import { Stack } from 'view/components/layouts/Stack';
 import { Icon } from 'view/components/primitives/Icon';
 import { Text } from 'view/components/primitives/Text';
 import { TextComponent, TextType } from 'view/components/primitives/Text/types';
+import { getLocationCurrentWeather, getLocationTimezone } from 'store/selectors';
 
 export const CurrentWeatherDisplay = () => {
   const convertTemperature = useConvertTemperature();
 
-  const timezone = useSelector(weatherSelectors.getTimezone);
-  const weatherData = useSelector(weatherSelectors.getCurrentWeatherData);
+  const timezone = useSelector(getLocationTimezone);
+  const weatherData = useSelector(getLocationCurrentWeather);
 
   if (!weatherData) return <div>loading</div>;
 

@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { geocodeSelectors } from 'store/data/geocode/selectors';
 import { useSelector } from 'store/hooks';
-
-import { formatDate } from 'utils';
+import { getLocationLabel } from 'store/selectors';
 
 import { Stack } from 'view/components/layouts/Stack';
 import { Text } from 'view/components/primitives/Text';
 import { TextComponent, TextType } from 'view/components/primitives/Text/types';
 
+import { formatDate } from 'utils';
+
 export const WeatherHeader = () => {
-  const label = useSelector(geocodeSelectors.getLocationLabel);
+  const label = useSelector(getLocationLabel);
 
   return (
     <Stack gap={1} verticalAlignment="center">

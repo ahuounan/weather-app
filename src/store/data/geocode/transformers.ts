@@ -1,7 +1,8 @@
-import { GeocodeSearchResults, GeocodeLocationData } from './types';
+import { OpenCageApiResponse, OpenCageApiResult } from 'models/api/openCageApi';
 import { Geocode } from 'models/geocode';
-import { getKey } from 'models/utils';
-import { OpenCageApiResponse, OpenCageApiResult } from 'models/openCageApi';
+import { getKey } from 'store/data/utils';
+
+import { GeocodeSearchResults, GeocodeLocationData } from './types';
 
 const cleanQuery = (placename: string) => placename?.trim().toLowerCase();
 

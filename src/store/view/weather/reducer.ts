@@ -1,5 +1,5 @@
-import { WeatherViewState } from './types';
 import { WeatherViewActions, WeatherViewActionTypes } from './actions';
+import { WeatherViewState } from './types';
 
 const initialState: WeatherViewState = {
   lat: undefined,

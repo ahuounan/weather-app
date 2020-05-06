@@ -5,7 +5,7 @@ import { BasicAction } from 'types/store';
 
 import { GeocodeActionTypes, GeocodeActions } from './actions';
 import { GeocodeApi } from './api';
-import { geocodeSelectors } from './selectors';
+import { getCurrentSearchResult } from 'store/selectors';
 import { geocodeTransformers } from './transformers';
 import { GeocodeFetchRequestPayload } from './types';
 
@@ -16,7 +16,7 @@ function* handleGeocodeQuery(action: BasicAction<GeocodeFetchRequestPayload>) {
 
   const cleanedQuery = geocodeTransformers.cleanQuery(placename);
 
-  const existingData = yield* select(geocodeSelectors.getCurrentSearchResult);
+  const existingData = yield* select(getCurrentSearchResult);
   if (existingData) {
     yield put(GeocodeActions.returnCached());
     return;

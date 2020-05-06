@@ -1,4 +1,4 @@
-import { getKey } from 'models/utils';
+import { getKey } from 'store/data/utils';
 
 import { WeatherActionTypes, WeatherActions } from './actions';
 

@@ -1,17 +1,17 @@
 import {
+  OpenWeatherCurrent,
+  OpenWeatherDaily,
+  OpenWeatherHourly,
+  OpenWeatherCommon,
+  OpenWeatherOneCallResponse
+} from 'models/api/openWeatherApi';
+import {
   WeatherCommon,
   Weather,
   WeatherDaily,
   WeatherHourly,
   WeatherCurrent
 } from 'models/weather';
-import {
-  OpenWeatherCurrent,
-  OpenWeatherDaily,
-  OpenWeatherHourly,
-  OpenWeatherCommon,
-  OpenWeatherOneCallResponse
-} from 'models/openWeatherApi';
 
 const openWeatherToWeatherCommon = (data: OpenWeatherCommon): WeatherCommon => {
   return {

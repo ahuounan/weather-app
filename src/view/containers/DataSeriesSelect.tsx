@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { DataSeries } from 'models/settings';
+import { DataSection } from 'models/settings';
 
 import { useSelector } from 'store/hooks';
 import { SettingsActions } from 'store/view/settings/actions';
@@ -18,16 +18,16 @@ export const DataSeriesSelect = () => {
       title="DataSeries"
       options={[
         {
-          key: DataSeries.DAILY,
-          title: DataSeries.DAILY,
-          checked: dataSeries === DataSeries.DAILY,
-          onChange: () => dispatch(SettingsActions.changeDataSeries(DataSeries.DAILY))
+          key: DataSection.DAILY,
+          title: DataSection.DAILY,
+          checked: dataSeries === DataSection.DAILY,
+          onChange: () => dispatch(SettingsActions.changeDataSeries(DataSection.DAILY))
         },
         {
-          key: DataSeries.HOURLY,
-          title: DataSeries.HOURLY,
-          checked: dataSeries === DataSeries.HOURLY,
-          onChange: () => dispatch(SettingsActions.changeDataSeries(DataSeries.HOURLY))
+          key: DataSection.HOURLY,
+          title: DataSection.HOURLY,
+          checked: dataSeries === DataSection.HOURLY,
+          onChange: () => dispatch(SettingsActions.changeDataSeries(DataSection.HOURLY))
         }
       ]}
     />

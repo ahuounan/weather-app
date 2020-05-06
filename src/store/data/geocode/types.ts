@@ -14,7 +14,7 @@ export interface GeocodeFetchRequestPayload {
 export interface GeocodeFetchSuccessPayload {
   placename: string;
   searchResults: GeocodeSearchResults;
-  locationData: GeocodeLocationData;
+  locationData: Record<string, Geocode>;
 }
 
 export interface GeocodeSearchResults {
