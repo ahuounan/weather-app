@@ -14,7 +14,7 @@ const getLocationData = (state: RootState) => getState(state).locationData;
 const getLocationLabel = (state: RootState) => {
   const { lat, lng } = weatherViewSelectors.getLocation(state);
 
-  return getLocationData(state)[getKey(lat, lng)].label;
+  return getLocationData(state)[getKey(lat, lng)]?.label;
 };
 
 const getCurrentSearchResult = (state: RootState) => {
