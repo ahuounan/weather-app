@@ -1,5 +1,6 @@
-import { settingsSelectors } from './selectors';
 import { useSelector } from 'react-redux';
+
+import { settingsSelectors } from './selectors';
 import { TemperatureUnit } from './types';
 
 const convertKelvinToKelvin = (temp: number) => `${temp.toFixed(0)}°K`;

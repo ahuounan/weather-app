@@ -1,6 +1,6 @@
-import { http } from 'services';
+import { OpenCageApiResponse } from 'models/api/openCageApi';
 
-import { OpenCageApiResponse } from './types';
+import { http } from 'services';
 
 const apiKey = process.env.OPEN_CAGE_API_KEY;
 

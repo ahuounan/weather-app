@@ -7,3 +7,8 @@ const get = async <T>(url: string) => {
 export const http = {
   get
 };
+
+export interface HttpResponse<T> {
+  response: Response;
+  data: T;
+}

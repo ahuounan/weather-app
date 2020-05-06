@@ -1,5 +1,4 @@
 import { GeocodeActionTypes, GeocodeActions } from './actions';
-import { geocodeTransformers } from './transformers';
 import { GeocodeState } from './types';
 
 const initialState: GeocodeState = {
@@ -11,31 +10,21 @@ const initialState: GeocodeState = {
 
 export const geocodeReducer = (state = initialState, action: GeocodeActions) => {
   switch (action.type) {
-    case GeocodeActionTypes.GEOCODE_FETCH_REQUEST: {
+    case GeocodeActionTypes.FETCH_REQUEST: {
       return {
         ...state,
         fetching: true
       };
     }
-    case GeocodeActionTypes.GEOCODE_FETCH_FAILURE: {
+    case GeocodeActionTypes.FETCH_FAILURE: {
       return {
         ...state,
         fetching: false,
         error: true
       };
     }
-    case GeocodeActionTypes.GEOCODE_RETURN_CACHED: {
-      return {
-        ...state,
-        fetching: false,
-        error: false
-      };
-    }
-    case GeocodeActionTypes.GEOCODE_FETCH_SUCCESS: {
-      const rawData = action.payload;
-      const { placename, searchResults, locationData } = geocodeTransformers.normalizeResponse(
-        rawData
-      );
+    case GeocodeActionTypes.FETCH_SUCCESS: {
+      const { placename, searchResults, locationData } = action.payload;
 
       return {
         ...state,
@@ -49,6 +38,13 @@ export const geocodeReducer = (state = initialState, action: GeocodeActions) => 
           ...state.locationData,
           ...locationData
         }
+      };
+    }
+    case GeocodeActionTypes.RETURN_CACHED: {
+      return {
+        ...state,
+        fetching: false,
+        error: false
       };
     }
     default: {

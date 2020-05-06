@@ -21,8 +21,6 @@
     "skipLibCheck": true, // Skip type checking of all declaration files
     "noEmit": true // Do not emit output (meaning do not compile code, only perform type checking)
   },
-  "include": [
-    "src/**/*" // *** The files TypeScript should type check ***
-  ],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"] // *** The files to not type check ***
 }

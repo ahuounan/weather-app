@@ -1,14 +1,19 @@
 import { RootState } from 'store/types';
-import { getKey } from './utils';
 
-const getWeatherDataByLatLng = (state: RootState, lat: number, lng: number) => {
-  return state.weather.data[getKey(lat, lng)];
-};
+import { dataSelectors } from '../selectors';
 
-const getWeatherCurrentTimestamp = (state: RootState, lat: number, lng: number) =>
-  state.weather.data[getKey(lat, lng)]?.current.timestamp;
+const getState = (state: RootState) => dataSelectors.getState(state).weather;
+const getFetching = (state: RootState) => getState(state).fetching;
+const getError = (state: RootState) => getState(state).error;
+const getPolling = (state: RootState) => getState(state).polling;
+const getData = (state: RootState) => getState(state).data;
+
+const makeGetDataByKey = (key: string) => (state: RootState) => getData(state)[key];
 
 export const weatherSelectors = {
-  getWeatherDataByLatLng,
-  getWeatherCurrentTimestamp
+  getFetching,
+  getError,
+  getPolling,
+  getData,
+  makeGetDataByKey
 };

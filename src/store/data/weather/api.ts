@@ -1,5 +1,6 @@
+import { OpenWeatherOneCallResponse } from 'models/api/openWeatherApi';
+
 import { http } from 'services';
-import { OpenWeatherOneCallResponse } from './types';
 
 const apiKey = process.env.OPEN_WEATHER_API_KEY;
 

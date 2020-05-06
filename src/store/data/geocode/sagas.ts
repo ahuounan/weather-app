@@ -1,19 +1,30 @@
 import { call, put, select, debounce, takeLatest } from 'typed-redux-saga';
+
+import { storage } from 'services';
+
+import { selectors } from 'store/selectors';
+
 import { BasicAction } from 'types/store';
 
 import { GeocodeActionTypes, GeocodeActions } from './actions';
 import { GeocodeApi } from './api';
-import { GeocodeFetchRequestPayload, GeocodeQueryPayload } from './types';
 import { geocodeTransformers } from './transformers';
-import { geocodeSelectors } from './selectors';
+import { GeocodeFetchRequestPayload } from './types';
 
-function* handleGeocodeQuery(action: BasicAction<GeocodeQueryPayload>) {
+function* handleGeocodeQuery(action: BasicAction<GeocodeFetchRequestPayload>) {
   const {
     payload: { placename }
   } = action;
 
-  const cleanedQuery = geocodeTransformers.geocodeQuery(placename);
-  yield put(GeocodeActions.geocodeFetchRequest({ placename: cleanedQuery }));
+  const cleanedQuery = geocodeTransformers.cleanQuery(placename);
+
+  const existingData = yield* select(selectors.getCurrentSearchResult);
+  if (existingData) {
+    yield put(GeocodeActions.returnCached());
+    return;
+  }
+
+  yield put(GeocodeActions.fetchRequest({ placename: cleanedQuery }));
 }
 
 function* handleGeocodeFetchRequest(action: BasicAction<GeocodeFetchRequestPayload>) {
@@ -21,28 +32,25 @@ function* handleGeocodeFetchRequest(action: BasicAction<GeocodeFetchRequestPaylo
     const {
       payload: { placename }
     } = action;
-    const existingData = yield* select(geocodeSelectors.getSearchResultByQuery, placename);
-
-    if (existingData) {
-      yield put(GeocodeActions.geocodeReturnCached());
-      return;
-    }
 
     if (placename.length < 2) {
       throw new Error('placename too short');
     }
 
     const { response, data } = yield* call(GeocodeApi.get, placename);
-    if (!response.ok) throw new Error();
+    if (!response.ok) throw new Error('api fail');
 
-    yield put(GeocodeActions.geocodeFetchSuccess({ placename, data }));
+    const { searchResults, locationData } = geocodeTransformers.normalizeOpenCageApiResponse(data);
+    Object.entries(locationData).forEach(([key, value]) => storage.set(key, value));
+
+    yield put(GeocodeActions.fetchSuccess({ placename, searchResults, locationData }));
   } catch (e) {
-    console.error('>>>handleGeocodeFetchRequest', e);
-    yield put(GeocodeActions.geocodeFetchFailure());
+    console.debug('>>>handleGeocodeFetchRequest', e);
+    yield put(GeocodeActions.fetchFailure(e.message));
   }
 }
 
 export const GeocodeSagas = [
-  takeLatest(GeocodeActionTypes.GEOCODE_QUERY, handleGeocodeQuery),
-  debounce(500, GeocodeActionTypes.GEOCODE_FETCH_REQUEST, handleGeocodeFetchRequest)
+  takeLatest(GeocodeActionTypes.QUERY, handleGeocodeQuery),
+  debounce(500, GeocodeActionTypes.FETCH_REQUEST, handleGeocodeFetchRequest)
 ];

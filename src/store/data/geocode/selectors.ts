@@ -1,31 +1,28 @@
 import { RootState } from 'store/types';
 
+import { dataSelectors } from '../selectors';
 import { geocodeTransformers } from './transformers';
 
-const getSearchResultByQuery = (state: RootState, query: string) =>
-  state.geocode.searchResults[query];
+const getState = (state: RootState) => dataSelectors.getState(state).geocode;
+const getFetching = (state: RootState) => getState(state).fetching;
+const getError = (state: RootState) => getState(state).error;
+const getSearchResults = (state: RootState) => getState(state).searchResults;
+const getLocationData = (state: RootState) => getState(state).locationData;
 
-const getLocationData = (state: RootState) => state.geocode.locationData;
+const makeGetDataByKey = (key: string) => (state: RootState) => getLocationData(state)[key];
 
-const getDenormalizedSearchResultByQuery = (state: RootState, query: string) => {
-  const results = getSearchResultByQuery(state, query);
+const makeGetDenormalizedSearchResult = (query: string) => (state: RootState) => {
+  const searchResult = getSearchResults(state)[query];
   const locationData = getLocationData(state);
-  const denormalizedResults = geocodeTransformers.denormalizeResults(results, locationData);
-  return denormalizedResults;
+
+  return geocodeTransformers.denormalizeResults(searchResult, locationData);
 };
 
-const getDataById = (state: RootState, id?: string) =>
-  id ? state.geocode.locationData[id] : undefined;
-
-const getIsFetching = (state: RootState) => state.geocode.fetching;
-
-const getError = (state: RootState) => state.geocode.error;
-
 export const geocodeSelectors = {
-  getSearchResultByQuery,
+  getFetching,
+  getError,
+  getSearchResults,
   getLocationData,
-  getDenormalizedSearchResultByQuery,
-  getDataById,
-  getIsFetching,
-  getError
+  makeGetDataByKey,
+  makeGetDenormalizedSearchResult
 };
