@@ -18,7 +18,9 @@ function* handleGeocodeQuery(action: BasicAction<GeocodeFetchRequestPayload>) {
 
   const cleanedQuery = geocodeTransformers.cleanQuery(placename);
 
-  const existingData = yield* select(selectors.getCurrentSearchResult);
+  const getQueryData = selectors.models.geocode.makeGetDataByQuery(cleanedQuery);
+  const existingData = yield* select(getQueryData);
+
   if (existingData) {
     yield put(GeocodeActions.returnCached());
     return;
@@ -41,7 +43,12 @@ function* handleGeocodeFetchRequest(action: BasicAction<GeocodeFetchRequestPaylo
     if (!response.ok) throw new Error('api fail');
 
     const { searchResults, locationData } = geocodeTransformers.normalizeOpenCageApiResponse(data);
-    Object.entries(locationData).forEach(([key, value]) => storage.set(key, value));
+    Object.keys(locationData).forEach(key => {
+      const value = locationData[key];
+      const { lat, lng } = value;
+
+      storage.geocode.set({ lat, lng }, value);
+    });
 
     yield put(GeocodeActions.fetchSuccess({ placename, searchResults, locationData }));
   } catch (e) {

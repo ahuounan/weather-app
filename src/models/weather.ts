@@ -1,6 +1,6 @@
-export interface Weather {
-  lat: number;
-  lng: number;
+import { Location } from './location';
+
+export interface Weather extends Location {
   timezone: string;
   current: WeatherCurrent;
   hourly: WeatherHourly[];

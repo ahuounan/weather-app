@@ -1,4 +1,4 @@
-import { getKey } from 'store/data/utils';
+import { getKey } from 'store/models/utils';
 
 import { WeatherActionTypes, WeatherActions } from './actions';
 
@@ -33,7 +33,7 @@ export const weatherReducer = (state = initialState, action: WeatherActions) => 
         error: false,
         data: {
           ...state.data,
-          [getKey(lat, lng)]: action.payload
+          [getKey({ lat, lng })]: action.payload
         }
       };
     }

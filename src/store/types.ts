@@ -1,7 +1,7 @@
-import { DataState } from './data/types';
+import { ModelState } from './models/types';
 import { ViewState } from './view/types';
 
 export interface RootState {
-  data: DataState;
+  models: ModelState;
   view: ViewState;
 }

@@ -9,7 +9,7 @@ import { weatherTransformers } from './transformers';
 function* handleWeatherFetchRequest() {
   try {
     const locationWeather = yield* select(selectors.location.getWeather);
-    const cachedTimeStamp = locationWeather?.current.time;
+    const cachedTimeStamp = locationWeather?.current.time ?? 0;
 
     if (Date.now() - cachedTimeStamp * 1000 < 60 * 60 * 60 * 1000) {
       yield* put(WeatherActions.returnCached());

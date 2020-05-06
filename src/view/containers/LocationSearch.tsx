@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { Geocode } from 'models/geocode';
 
-import { GeocodeActions } from 'store/data/geocode/actions';
+import { GeocodeActions } from 'store/models/geocode/actions';
 import { useSelector } from 'store/hooks';
 import { SearchActions } from 'store/view/search/actions';
 import { WeatherViewActions } from 'store/view/weather/actions';
@@ -19,10 +19,9 @@ import { InputComponent, InputType } from 'view/components/primitives/Input/type
 
 export const LocationSearch = () => {
   const dispatch = useDispatch();
-  console.log(selectors.view);
   const query = useSelector(selectors.view.search.getQuery);
   const results = useSelector(selectors.getCurrentSearchResult);
-  const isFetching = useSelector(selectors.data.geocode.getFetching);
+  const isFetching = useSelector(selectors.models.geocode.getFetching);
 
   React.useEffect(() => {
     dispatch(GeocodeActions.query({ placename: query }));

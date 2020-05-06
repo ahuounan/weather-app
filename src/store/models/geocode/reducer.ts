@@ -1,3 +1,5 @@
+import { storage } from 'services';
+
 import { GeocodeActionTypes, GeocodeActions } from './actions';
 import { GeocodeState } from './types';
 
@@ -5,7 +7,7 @@ const initialState: GeocodeState = {
   fetching: false,
   error: false,
   searchResults: {},
-  locationData: {}
+  locationData: storage.geocode.get()
 };
 
 export const geocodeReducer = (state = initialState, action: GeocodeActions) => {

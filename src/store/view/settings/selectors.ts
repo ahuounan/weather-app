@@ -1,9 +1,8 @@
 import { RootState } from 'store/types';
 
-import { viewSelectors } from '../selectors';
 import { DataSection } from './types';
 
-const getState = (state: RootState) => viewSelectors.getState(state).settings;
+const getState = (state: RootState) => state.view.settings;
 const getTemperatureUnit = (state: RootState) => getState(state).temperatureUnit;
 const getCurrentDataSeries = (state: RootState) => getState(state).currentDataSeries;
 const getCurrentSettings = (state: RootState) => getState(state)[DataSection.CURRENT];
@@ -22,7 +21,7 @@ const makeGetDataSeriesSettings = (section: DataSection) => (state: RootState) =
       return getHourlySettings(state);
     }
     default: {
-      return null;
+      return;
     }
   }
 };
@@ -35,6 +34,7 @@ const getCurrentDataSeriesSettings = (state: RootState) => {
 };
 
 export const settingsSelectors = {
+  getState,
   getTemperatureUnit,
   getCurrentSettings,
   getHourlySettings,

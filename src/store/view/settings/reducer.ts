@@ -1,7 +1,8 @@
 import { SettingsActionTypes, SettingsActions } from './actions';
 import { SettingsState, TemperatureUnit, DataSection } from './types';
+import { storage } from 'services';
 
-const initialState: SettingsState = {
+const initialState: SettingsState = storage.settings.get() || {
   temperatureUnit: TemperatureUnit.KELVIN,
   currentDataSeries: DataSection.HOURLY,
   current: {
@@ -76,7 +77,7 @@ const initialState: SettingsState = {
 
 export const settingsReducer = (state = initialState, action: SettingsActions) => {
   switch (action.type) {
-    case SettingsActionTypes.SETTINGS_CHANGE_UNIT: {
+    case SettingsActionTypes.CHANGE_UNIT: {
       return {
         ...state,
         temperatureUnit: action.payload

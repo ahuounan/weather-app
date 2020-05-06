@@ -17,6 +17,10 @@ export interface GeocodeFetchSuccessPayload {
   locationData: Record<string, Geocode>;
 }
 
+export interface DenormalizedGeocodeSearchResults extends GeocodeSearchResults {
+  results: Geocode[];
+}
+
 export interface GeocodeSearchResults {
   resultIds: string[];
 }

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { icons } from 'assets';
 
-import { WeatherActions } from 'store/data/weather/actions';
+import { WeatherActions } from 'store/models/weather/actions';
 import { useSelector } from 'store/hooks';
 import { selectors } from 'store/selectors';
 

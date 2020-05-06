@@ -12,7 +12,7 @@ import { WeatherCard } from 'view/components/patterns/WeatherCard';
 import { WeatherHourly, WeatherDaily } from 'models/weather';
 
 export const DataRow = () => {
-  const dataSeries: (Partial<WeatherDaily> | Partial<WeatherHourly>)[] | null = useSelector(
+  const dataSeries: (Partial<WeatherDaily> | Partial<WeatherHourly>)[] | undefined = useSelector(
     selectors.displayed.getDataSeries
   );
   const timezone = useSelector(selectors.location.getTimezone);
