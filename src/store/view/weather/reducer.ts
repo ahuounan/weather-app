@@ -1,9 +1,13 @@
+import { storage } from 'services';
+
 import { WeatherViewActions, WeatherViewActionTypes } from './actions';
 import { WeatherViewState } from './types';
 
+const { lat, lng } = storage.location.get() || {};
+
 const initialState: WeatherViewState = {
-  lat: undefined,
-  lng: undefined
+  lat,
+  lng
 };
 
 export const weatherViewReducer = (state = initialState, action: WeatherViewActions) => {

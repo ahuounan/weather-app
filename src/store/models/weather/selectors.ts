@@ -1,8 +1,6 @@
 import { RootState } from 'store/types';
 
-import { dataSelectors } from '../selectors';
-
-const getState = (state: RootState) => dataSelectors.getState(state).weather;
+const getState = (state: RootState) => state.models.weather;
 const getFetching = (state: RootState) => getState(state).fetching;
 const getError = (state: RootState) => getState(state).error;
 const getPolling = (state: RootState) => getState(state).polling;

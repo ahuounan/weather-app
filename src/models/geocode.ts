@@ -1,6 +1,6 @@
-export interface Geocode {
-  lat: number;
-  lng: number;
+import { Location } from './location';
+
+export interface Geocode extends Location {
   label: string;
   id: string;
 }

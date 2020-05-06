@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import { dataReducer } from './data/reducer';
+import { modelReducer } from './models/reducer';
 import { viewReducer } from './view/reducer';
 
 export const rootReducer = combineReducers({
-  data: dataReducer,
+  models: modelReducer,
   view: viewReducer
 });

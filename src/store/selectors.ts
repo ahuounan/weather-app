@@ -1,38 +1,52 @@
 import { WeatherDaily, WeatherHourly, WeatherCurrent } from 'models/weather';
 
-import { geocodeSelectors } from './data/geocode/selectors';
-import { weatherSelectors } from './data/weather/selectors';
-import { getKey } from './data/utils';
+import { geocodeSelectors } from './models/geocode/selectors';
+import { modelSelectors } from './models/selectors';
+import { getKey } from './models/utils';
+import { weatherSelectors } from './models/weather/selectors';
 
 import { searchSelectors } from './view/search/selectors';
 import { settingsSelectors } from './view/settings/selectors';
+import { viewSelectors } from './view/selectors';
+import { DataSection } from './view/settings/types';
 import { weatherViewSelectors } from './view/weather/selectors';
 
 import { RootState } from './types';
-import { dataSelectors } from './data/selectors';
-import { viewSelectors } from './view/selectors';
-import { DataSection } from './view/settings/types';
 
 const getLocationWeather = (state: RootState) => {
   const { lat, lng } = weatherViewSelectors.getLocation(state);
-  const key = getKey(lat, lng);
+  if (!lat || !lng) {
+    return;
+  }
+
+  const key = getKey({ lat, lng });
   const getData = weatherSelectors.makeGetDataByKey(key);
 
   return getData(state);
 };
-const getLocationTimezone = (state: RootState) => getLocationWeather(state).timezone;
-const getLocationLat = (state: RootState) => getLocationWeather(state).lat;
-const getLocationLng = (state: RootState) => getLocationWeather(state).lng;
-const getLocationKey = (state: RootState) => getKey(getLocationLat(state), getLocationLng(state));
-const getLocationDailyWeather = (state: RootState) => getLocationWeather(state).daily;
-const getLocationHourlyWeather = (state: RootState) => getLocationWeather(state).hourly;
-const getLocationCurrentWeather = (state: RootState) => getLocationWeather(state).current;
+
+const getLocationTimezone = (state: RootState) => getLocationWeather(state)?.timezone;
+const getLocationLat = (state: RootState) => getLocationWeather(state)?.lat;
+const getLocationLng = (state: RootState) => getLocationWeather(state)?.lng;
+const getLocationKey = (state: RootState) => {
+  const lat = getLocationLat(state);
+  const lng = getLocationLng(state);
+  if (!lat || !lng) {
+    return;
+  }
+
+  return getKey({ lat, lng });
+};
+
+const getLocationDailyWeather = (state: RootState) => getLocationWeather(state)?.daily;
+const getLocationHourlyWeather = (state: RootState) => getLocationWeather(state)?.hourly;
+const getLocationCurrentWeather = (state: RootState) => getLocationWeather(state)?.current;
 
 const getDisplayedLocationDailyWeather = (state: RootState) => {
   const weather = getLocationDailyWeather(state);
   const settings = settingsSelectors.getDailySettings(state);
 
-  return weather.map(data => {
+  return weather?.map(data => {
     const filteredData: Partial<WeatherDaily> = {};
 
     Object.keys(data).forEach(key => {
@@ -49,7 +63,7 @@ const getDisplayedLocationHourlyWeather = (state: RootState) => {
   const weather = getLocationHourlyWeather(state);
   const settings = settingsSelectors.getHourlySettings(state);
 
-  return weather.map(data => {
+  return weather?.map(data => {
     const filteredData: Partial<WeatherHourly> = {};
 
     Object.keys(data).forEach(key => {
@@ -65,7 +79,7 @@ const getDisplayedLocationHourlyWeather = (state: RootState) => {
 const getDisplayedLocationCurrentWeather = (state: RootState) => {
   const data = getLocationCurrentWeather(state);
   if (!data) {
-    return undefined;
+    return;
   }
 
   const settings = settingsSelectors.getCurrentSettings(state);
@@ -91,7 +105,7 @@ const getDisplayedLocationDataSeries = (state: RootState) => {
       return getDisplayedLocationDailyWeather(state);
     }
     default: {
-      return null;
+      return;
     }
   }
 };
@@ -99,8 +113,11 @@ const getDisplayedLocationDataSeries = (state: RootState) => {
 const getLocationLabel = (state: RootState) => {
   const lat = getLocationLat(state);
   const lng = getLocationLng(state);
+  if (!lat || !lng) {
+    return;
+  }
 
-  return geocodeSelectors.getLocationData(state)[getKey(lat, lng)]?.label;
+  return geocodeSelectors.getLocationData(state)[getKey({ lat, lng })]?.label;
 };
 
 const getCurrentSearchResult = (state: RootState) => {
@@ -130,6 +147,6 @@ export const selectors = {
     getDataSeries: getDisplayedLocationDataSeries
   },
   getCurrentSearchResult,
-  data: dataSelectors,
+  models: modelSelectors,
   view: viewSelectors
 };
