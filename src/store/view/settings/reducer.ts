@@ -1,7 +1,5 @@
-import { TemperatureUnit, DataSection } from 'models/settings';
-
 import { SettingsActionTypes, SettingsActions } from './actions';
-import { SettingsState } from './types';
+import { SettingsState, TemperatureUnit, DataSection } from './types';
 
 const initialState: SettingsState = {
   temperatureUnit: TemperatureUnit.KELVIN,

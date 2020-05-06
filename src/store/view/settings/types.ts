@@ -1,4 +1,3 @@
-import { TemperatureUnit, DataSeries, DataSection } from 'models/settings';
 import { WeatherCurrent, WeatherHourly, WeatherDaily } from 'models/weather';
 
 export type ToggleDataPointPayload =
@@ -28,6 +27,20 @@ export type DataPoints<T> = {
 export type CurrentDataPoints = DataPoints<WeatherCurrent>;
 export type HourlyDataPoints = DataPoints<WeatherHourly>;
 export type DailyDataPoints = DataPoints<WeatherDaily>;
+
+export enum TemperatureUnit {
+  KELVIN = 'kelvin',
+  CELSIUS = 'celsius',
+  FAHRENHEIT = 'fahrenheit'
+}
+
+export type DataSeries = DataSection.HOURLY | DataSection.DAILY;
+
+export enum DataSection {
+  CURRENT = 'current',
+  HOURLY = 'hourly',
+  DAILY = 'daily'
+}
 
 export interface SettingsState {
   temperatureUnit: TemperatureUnit;

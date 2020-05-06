@@ -1,11 +1,10 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { TemperatureUnit } from 'models/settings';
-
 import { useSelector } from 'store/hooks';
-import { SettingsActions } from 'store/view/settings/actions';
 import { selectors } from 'store/selectors';
+import { SettingsActions } from 'store/view/settings/actions';
+import { TemperatureUnit } from 'store/view/settings/types';
 
 import { InputRadio } from 'view/components/patterns/InputRadio';
 

@@ -1,11 +1,10 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { DataSection } from 'models/settings';
-
 import { useSelector } from 'store/hooks';
 import { selectors } from 'store/selectors';
 import { SettingsActions } from 'store/view/settings/actions';
+import { DataSection } from 'store/view/settings/types';
 
 import { Grid } from 'view/components/layouts/Grid';
 import { Stack } from 'view/components/layouts/Stack';

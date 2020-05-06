@@ -1,8 +1,7 @@
-import { DataSection } from 'models/settings';
-
 import { RootState } from 'store/types';
 
 import { viewSelectors } from '../selectors';
+import { DataSection } from './types';
 
 const getState = (state: RootState) => viewSelectors.getState(state).settings;
 const getTemperatureUnit = (state: RootState) => getState(state).temperatureUnit;

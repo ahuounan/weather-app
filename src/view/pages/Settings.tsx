@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import { icons } from 'assets';
 
-import { DataSection } from 'models/settings';
+import { DataSection } from 'store/view/settings/types';
 
 import { InputComponent, InputType } from 'view/components/primitives/Input/types';
 import { TextComponent, TextType } from 'view/components/primitives/Text/types';

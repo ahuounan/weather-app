@@ -1,4 +1,3 @@
-import { DataSection } from 'models/settings';
 import { WeatherDaily, WeatherHourly, WeatherCurrent } from 'models/weather';
 
 import { geocodeSelectors } from './data/geocode/selectors';
@@ -12,6 +11,7 @@ import { weatherViewSelectors } from './view/weather/selectors';
 import { RootState } from './types';
 import { dataSelectors } from './data/selectors';
 import { viewSelectors } from './view/selectors';
+import { DataSection } from './view/settings/types';
 
 const getLocationWeather = (state: RootState) => {
   const { lat, lng } = weatherViewSelectors.getLocation(state);

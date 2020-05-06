@@ -1,8 +1,6 @@
-import { TemperatureUnit, DataSeries } from 'models/settings';
-
 import { createAction, ActionsUnion } from 'types/store';
 
-import { ToggleDataPointPayload } from './types';
+import { ToggleDataPointPayload, TemperatureUnit, DataSeries } from './types';
 
 export enum SettingsActionTypes {
   SETTINGS_CHANGE_UNIT = '[SETTINGS] CHANGE_UNIT',
