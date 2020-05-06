@@ -19,19 +19,20 @@ const openCageApiResultToGeocode = (rawResult: OpenCageApiResult): Geocode => ({
 
 const normalizeOpenCageApiResponse = (
   openCageApiResponse: OpenCageApiResponse
-): { searchResults: GeocodeSearchResults; locationData: GeocodeLocationData } => {
-  const searchResults: GeocodeSearchResults = {
-    resultIds: []
-  };
+): { searchResult: GeocodeSearchResults; locationData: GeocodeLocationData } => {
+  const searchResult: GeocodeSearchResults = [];
   const locationData: GeocodeLocationData = {};
 
   openCageApiResponse.results.forEach(result => {
     const id = getKey({ lat: result.geometry.lat, lng: result.geometry.lng });
-    searchResults.resultIds.push(id);
+    if (locationData[id]) {
+      return;
+    }
+    searchResult.push(id);
     locationData[id] = openCageApiResultToGeocode(result);
   });
   return {
-    searchResults,
+    searchResult,
     locationData
   };
 };
@@ -39,12 +40,7 @@ const normalizeOpenCageApiResponse = (
 const denormalizeResults = (
   searchResults: GeocodeSearchResults,
   locationData: GeocodeLocationData
-): DenormalizedGeocodeSearchResults => {
-  return {
-    ...searchResults,
-    results: searchResults?.resultIds.map(resultId => locationData[resultId])
-  };
-};
+): DenormalizedGeocodeSearchResults => searchResults?.map(resultId => locationData[resultId]);
 
 export const geocodeTransformers = {
   openCageApiResultToGeocode,

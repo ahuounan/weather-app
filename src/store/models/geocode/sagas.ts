@@ -18,11 +18,16 @@ function* handleGeocodeQuery(action: BasicAction<GeocodeFetchRequestPayload>) {
 
   const cleanedQuery = geocodeTransformers.cleanQuery(placename);
 
-  const getQueryData = selectors.models.geocode.makeGetDataByQuery(cleanedQuery);
+  const getQueryData = selectors.models.geocode.makeGetResultsByQuery(cleanedQuery);
   const existingData = yield* select(getQueryData);
 
   if (existingData) {
     yield put(GeocodeActions.returnCached());
+    return;
+  }
+
+  if (placename.length < 2) {
+    console.debug('>>>handleGeocodeQuery->Placename too short');
     return;
   }
 
@@ -35,29 +40,26 @@ function* handleGeocodeFetchRequest(action: BasicAction<GeocodeFetchRequestPaylo
       payload: { placename }
     } = action;
 
-    if (placename.length < 2) {
-      throw new Error('placename too short');
-    }
-
     const { response, data } = yield* call(GeocodeApi.get, placename);
     if (!response.ok) throw new Error('api fail');
 
-    const { searchResults, locationData } = geocodeTransformers.normalizeOpenCageApiResponse(data);
-    Object.keys(locationData).forEach(key => {
-      const value = locationData[key];
-      const { lat, lng } = value;
+    const { searchResult, locationData } = geocodeTransformers.normalizeOpenCageApiResponse(data);
 
-      storage.geocode.set({ lat, lng }, value);
-    });
-
-    yield put(GeocodeActions.fetchSuccess({ placename, searchResults, locationData }));
+    yield put(GeocodeActions.fetchSuccess({ placename, searchResult, locationData }));
   } catch (e) {
     console.debug('>>>handleGeocodeFetchRequest', e);
     yield put(GeocodeActions.fetchFailure(e.message));
   }
 }
 
+function* handleGeocodeFetchSuccess() {
+  const geocodeData = yield* select(selectors.models.geocode.getData);
+
+  storage.geocode.set(geocodeData);
+}
+
 export const GeocodeSagas = [
   takeLatest(GeocodeActionTypes.QUERY, handleGeocodeQuery),
+  takeLatest(GeocodeActionTypes.FETCH_SUCCESS, handleGeocodeFetchSuccess),
   debounce(500, GeocodeActionTypes.FETCH_REQUEST, handleGeocodeFetchRequest)
 ];

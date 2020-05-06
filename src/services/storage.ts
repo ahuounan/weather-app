@@ -1,8 +1,7 @@
 import { Location } from 'models/location';
-import { Geocode } from 'models/geocode';
 
-import { getKey } from 'store/models/utils';
 import { SettingsState } from 'store/view/settings/types';
+import { GeocodeSearchResults, GeocodeLocationData } from 'store/models/geocode/types';
 
 enum Key {
   LOCATION_LAT = 'LOCATION_LAT',
@@ -39,27 +38,15 @@ const getLocation = (): Location | undefined => {
   return { lat, lng: lng };
 };
 
-const setGeocodeData = (location: Location, geocodeData: Geocode) => {
-  const key = `${Key.GEOCODE}_${getKey(location)}`;
-  set(key, geocodeData);
-};
-
-const getGeocodeDataByLocation = (location: Location) => {
-  const key = `${Key.GEOCODE}_${getKey(location)}`;
-
-  return get(key);
+const setGeocodeData = (data: {
+  searchResults: Record<string, GeocodeSearchResults>;
+  locationData: GeocodeLocationData;
+}) => {
+  set(Key.GEOCODE, data);
 };
 
 const getGeocodeData = () => {
-  const data: Record<string, Geocode> = {};
-  Object.keys(window.localStorage).forEach(key => {
-    const [prefix, locationKey] = String(key).split('_');
-
-    if (prefix === Key.GEOCODE) {
-      data[locationKey] = get(String(key));
-    }
-  });
-  return data;
+  return get(Key.GEOCODE);
 };
 
 const setSettings = (settings: SettingsState) => {
@@ -77,8 +64,7 @@ export const storage = {
   },
   geocode: {
     set: setGeocodeData,
-    get: getGeocodeData,
-    getByLocation: getGeocodeDataByLocation
+    get: getGeocodeData
   },
   settings: {
     get: getSettings,

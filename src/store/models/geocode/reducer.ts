@@ -3,11 +3,15 @@ import { storage } from 'services';
 import { GeocodeActionTypes, GeocodeActions } from './actions';
 import { GeocodeState } from './types';
 
+const { searchResults, locationData } = storage.geocode.get() ?? {};
+
 const initialState: GeocodeState = {
   fetching: false,
   error: false,
-  searchResults: {},
-  locationData: storage.geocode.get()
+  data: {
+    searchResults: searchResults ?? {},
+    locationData: locationData ?? {}
+  }
 };
 
 export const geocodeReducer = (state = initialState, action: GeocodeActions) => {
@@ -26,19 +30,22 @@ export const geocodeReducer = (state = initialState, action: GeocodeActions) => 
       };
     }
     case GeocodeActionTypes.FETCH_SUCCESS: {
-      const { placename, searchResults, locationData } = action.payload;
+      const { placename, searchResult, locationData } = action.payload;
 
       return {
         ...state,
         fetching: false,
         error: false,
-        searchResults: {
-          ...state.searchResults,
-          [placename]: searchResults
-        },
-        locationData: {
-          ...state.locationData,
-          ...locationData
+        data: {
+          ...state.data,
+          searchResults: {
+            ...state.data.searchResults,
+            [placename]: searchResult
+          },
+          locationData: {
+            ...state.data.locationData,
+            ...locationData
+          }
         }
       };
     }

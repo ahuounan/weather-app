@@ -50,12 +50,12 @@ export const LocationSearch = () => {
             <Text as={TextComponent.P} type={TextType.BODY}>
               Loading...
             </Text>
-          ) : !results?.results && query.length > 0 ? (
+          ) : !results && query.length > 0 ? (
             <Text as={TextComponent.P} type={TextType.BODY}>
               No results
             </Text>
-          ) : !results?.results ? null : (
-            results.results.map(({ lat, lng, id, label }: Geocode) => {
+          ) : !results ? null : (
+            results.map(({ lat, lng, id, label }: Geocode) => {
               const handleClick = () => {
                 dispatch(WeatherViewActions.setLocation({ lat: lat, lng: lng }));
               };

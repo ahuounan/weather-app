@@ -32,7 +32,7 @@ export const Weather = () => {
         <WeatherHeader />
         <Stack gap={1} verticalAlignment="center">
           <Link to="/search">
-            <Icon alt="Close" src={icons.close} />
+            <Icon alt="Search" src={icons.search} />
           </Link>
           <Link to="/settings">
             <Icon alt="Settings" src={icons.settings} />
