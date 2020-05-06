@@ -17,7 +17,7 @@ export const Routes = () => {
       <Route path="/settings">
         <Settings />
       </Route>
-      <Route path="/weather/:id">
+      <Route path="/weather">
         <Weather />
       </Route>
     </Switch>

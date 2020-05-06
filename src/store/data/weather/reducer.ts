@@ -1,6 +1,6 @@
+import { getKey } from 'models/utils';
+
 import { WeatherActionTypes, WeatherActions } from './actions';
-import { getKey } from './utils';
-import { weatherTransformers } from './transformers';
 
 const initialState = {
   fetching: false,
@@ -11,21 +11,21 @@ const initialState = {
 
 export const weatherReducer = (state = initialState, action: WeatherActions) => {
   switch (action.type) {
-    case WeatherActionTypes.WEATHER_FETCH_REQUEST: {
+    case WeatherActionTypes.FETCH_REQUEST: {
       return {
         ...state,
         fetching: true
       };
     }
-    case WeatherActionTypes.WEATHER_FETCH_FAILURE: {
+    case WeatherActionTypes.FETCH_FAILURE: {
       return {
         ...state,
         fetching: false,
         error: true
       };
     }
-    case WeatherActionTypes.WEATHER_FETCH_SUCCESS: {
-      const { lat, lon } = action.payload;
+    case WeatherActionTypes.FETCH_SUCCESS: {
+      const { lat, lng } = action.payload;
 
       return {
         ...state,
@@ -33,24 +33,24 @@ export const weatherReducer = (state = initialState, action: WeatherActions) => 
         error: false,
         data: {
           ...state.data,
-          [getKey(lat, lon)]: weatherTransformers.openWeatherOneCallResponseToData(action.payload)
+          [getKey(lat, lng)]: action.payload
         }
       };
     }
-    case WeatherActionTypes.WEATHER_RETURN_CACHED: {
+    case WeatherActionTypes.RETURN_CACHED: {
       return {
         ...state,
         fetching: false,
         error: false
       };
     }
-    case WeatherActionTypes.WEATHER_START_SUBSCRIPTION: {
+    case WeatherActionTypes.START_SUBSCRIPTION: {
       return {
         ...state,
         polling: true
       };
     }
-    case WeatherActionTypes.WEATHER_STOP_SUBSCRIPTION: {
+    case WeatherActionTypes.STOP_SUBSCRIPTION: {
       return {
         ...state,
         polling: false

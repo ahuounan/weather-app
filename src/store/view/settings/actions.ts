@@ -1,5 +1,8 @@
+import { TemperatureUnit, DataSeries } from 'models/settings';
+
 import { createAction, ActionsUnion } from 'types/store';
-import { TemperatureUnit, DataSeriesType, DataPoint } from './types';
+
+import { ToggleDataPointPayload } from './types';
 
 export enum SettingsActionTypes {
   SETTINGS_CHANGE_UNIT = '[SETTINGS] CHANGE_UNIT',
@@ -10,9 +13,9 @@ export enum SettingsActionTypes {
 export const SettingsActions = {
   settingsChangeUnit: (payload: TemperatureUnit) =>
     createAction(SettingsActionTypes.SETTINGS_CHANGE_UNIT, payload),
-  changeDataSeries: (payload: DataSeriesType) =>
+  changeDataSeries: (payload: DataSeries) =>
     createAction(SettingsActionTypes.CHANGE_DATA_SERIES, payload),
-  toggleDataPoint: (payload: DataPoint) =>
+  toggleDataPoint: (payload: ToggleDataPointPayload) =>
     createAction(SettingsActionTypes.TOGGLE_DATA_POINT, payload)
 };
 

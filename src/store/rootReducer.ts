@@ -1,11 +1,9 @@
 import { combineReducers } from 'redux';
 
-import { weatherReducer } from './data/weather/reducer';
-import { geocodeReducer } from './data/geocode/reducer';
-import { settingsReducer } from './settings/reducer';
+import { dataReducer } from './data/reducer';
+import { viewReducer } from './view/reducer';
 
 export const rootReducer = combineReducers({
-  weather: weatherReducer,
-  geocode: geocodeReducer,
-  settings: settingsReducer
+  data: dataReducer,
+  view: viewReducer
 });

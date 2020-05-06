@@ -1,50 +1,35 @@
-import { memoize } from 'lodash';
+import { GeocodeSearchResults, GeocodeLocationData } from './types';
+import { Geocode } from 'models/geocode';
+import { getKey } from 'models/utils';
+import { OpenCageApiResponse, OpenCageApiResult } from 'models/openCageApi';
 
-import {
-  GeocodeFetchResponsePayload,
-  OpenCageApiResult,
-  GeocodeResult,
-  GeocodeSearchResults,
-  GeocodeLocationData
-} from './types';
+const cleanQuery = (placename: string) => placename?.trim().toLowerCase();
 
-const geocodeQuery = (placename: string) => placename?.trim().toLowerCase();
-
-const transformResult = (rawResult: OpenCageApiResult): GeocodeResult => ({
-  confidence: rawResult.confidence,
+const openCageApiResultToGeocode = (rawResult: OpenCageApiResult): Geocode => ({
   label: rawResult.formatted,
-  geometry: rawResult.geometry,
-  id: rawResult.annotations.geohash
+  lat: rawResult.geometry.lat,
+  lng: rawResult.geometry.lng,
+  id: getKey(rawResult.geometry.lat, rawResult.geometry.lng)
 });
 
-const normalizeResponse = memoize(
-  (
-    rawData: GeocodeFetchResponsePayload
-  ): {
-    placename: string;
-    searchResults: GeocodeSearchResults;
-    locationData: GeocodeLocationData;
-  } => {
-    const searchResults: GeocodeSearchResults = {
-      placename: rawData.placename,
-      timestamp: rawData.data.timestamp.created_unix,
-      resultIds: []
-    };
-    const locationData: GeocodeLocationData = {};
+const normalizeOpenCageApiResponse = (
+  openCageApiResponse: OpenCageApiResponse
+): { searchResults: GeocodeSearchResults; locationData: GeocodeLocationData } => {
+  const searchResults: GeocodeSearchResults = {
+    resultIds: []
+  };
+  const locationData: GeocodeLocationData = {};
 
-    rawData.data.results.forEach(result => {
-      const id = result.annotations.geohash;
-      searchResults.resultIds.push(id);
-      locationData[id] = transformResult(result);
-    });
-    return {
-      placename: rawData.placename,
-      searchResults,
-      locationData
-    };
-  },
-  (rawData: GeocodeFetchResponsePayload) => rawData.placename
-);
+  openCageApiResponse.results.forEach(result => {
+    const id = getKey(result.geometry.lat, result.geometry.lng);
+    searchResults.resultIds.push(id);
+    locationData[id] = openCageApiResultToGeocode(result);
+  });
+  return {
+    searchResults,
+    locationData
+  };
+};
 
 const denormalizeResults = (
   searchResults: GeocodeSearchResults,
@@ -57,8 +42,8 @@ const denormalizeResults = (
 };
 
 export const geocodeTransformers = {
-  transformResult,
-  normalizeResponse,
+  openCageApiResultToGeocode,
+  normalizeOpenCageApiResponse,
   denormalizeResults,
-  geocodeQuery
+  cleanQuery
 };

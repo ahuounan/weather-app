@@ -37,7 +37,7 @@ export const InputRadio = (props: Props) => {
         {title}
       </Text>
       {options.map(({ key, title, checked, onChange }) => (
-        <Row gap={1} key={key}>
+        <Row gap={1} key={key} horizontalAlignment="space-between">
           <Text styles={styles.label} as={TextComponent.LABEL} type={TextType.BODY}>
             {title}
           </Text>

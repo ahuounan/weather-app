@@ -1,19 +1,21 @@
 import {
-  WeatherFetchResponsePayload,
-  WeatherCurrentData,
-  WeatherDailyData,
-  WeatherData,
-  WeatherHourlyData,
-  OpenWeatherCurrentData,
-  OpenWeatherDailyData,
-  OpenWeatherHourlyData,
-  OpenWeatherData,
-  WeatherDataBase
-} from './types';
+  WeatherCommon,
+  Weather,
+  WeatherDaily,
+  WeatherHourly,
+  WeatherCurrent
+} from 'models/weather';
+import {
+  OpenWeatherCurrent,
+  OpenWeatherDaily,
+  OpenWeatherHourly,
+  OpenWeatherCommon,
+  OpenWeatherOneCallResponse
+} from 'models/openWeatherApi';
 
-const openWeatherDataToData = (data: OpenWeatherData): WeatherDataBase => {
+const openWeatherToWeatherCommon = (data: OpenWeatherCommon): WeatherCommon => {
   return {
-    timestamp: data.dt,
+    time: data.dt * 1000,
     pressure: data.pressure,
     humidity: data.humidity,
     dewPoint: data.dew_point,
@@ -25,11 +27,12 @@ const openWeatherDataToData = (data: OpenWeatherData): WeatherDataBase => {
     windDeg: data.wind_deg,
     rain: data.rain,
     snow: data.snow,
-    weather: data.weather[0]
+    icon: data.weather[0].icon,
+    description: data.weather[0].description
   };
 };
 
-const openWeatherCurrentToData = (current: OpenWeatherCurrentData): WeatherCurrentData => {
+const openWeatherCurrentToCurrent = (current: OpenWeatherCurrent): WeatherCurrent => {
   /* eslint-disable-next-line  @typescript-eslint/camelcase */
   const { sunrise, sunset, temp, feels_like, ...data } = current;
   return {
@@ -38,45 +41,56 @@ const openWeatherCurrentToData = (current: OpenWeatherCurrentData): WeatherCurre
     temp,
     /* eslint-disable-next-line  @typescript-eslint/camelcase */
     feelsLike: feels_like,
-    ...openWeatherDataToData(data)
+    ...openWeatherToWeatherCommon(data)
   };
 };
 
-const openWeatherHourlyToData = (hourly: OpenWeatherHourlyData): WeatherHourlyData => {
+const openWeatherHourlyToData = (hourly: OpenWeatherHourly): WeatherHourly => {
   /* eslint-disable-next-line  @typescript-eslint/camelcase */
   const { temp, feels_like, ...data } = hourly;
   return {
     temp,
     /* eslint-disable-next-line  @typescript-eslint/camelcase */
     feelsLike: feels_like,
-    ...openWeatherDataToData(data)
+    ...openWeatherToWeatherCommon(data)
   };
 };
 
-const openWeatherDailyToData = (daily: OpenWeatherDailyData): WeatherDailyData => {
+const openWeatherDailyToData = (daily: OpenWeatherDaily): WeatherDaily => {
   /* eslint-disable-next-line  @typescript-eslint/camelcase */
   const { sunrise, sunset, temp, feels_like, ...data } = daily;
   return {
     sunrise,
     sunset,
-    temp,
+    tempMorn: temp.morn,
+    tempDay: temp.day,
+    tempEve: temp.eve,
+    tempNight: temp.night,
+    tempMin: temp.min,
+    tempMax: temp.max,
     /* eslint-disable-next-line  @typescript-eslint/camelcase */
-    feelsLike: feels_like,
-    ...openWeatherDataToData(data)
+    feelsLikeMorn: feels_like.morn,
+    /* eslint-disable-next-line  @typescript-eslint/camelcase */
+    feelsLikeDay: feels_like.day,
+    /* eslint-disable-next-line  @typescript-eslint/camelcase */
+    feelsLikeEve: feels_like.eve,
+    /* eslint-disable-next-line  @typescript-eslint/camelcase */
+    feelsLikeNight: feels_like.night,
+    ...openWeatherToWeatherCommon(data)
   };
 };
 
-const openWeatherOneCallResponseToData = (response: WeatherFetchResponsePayload): WeatherData => {
+const openWeatherOneCallResponseToWeather = (response: OpenWeatherOneCallResponse): Weather => {
   return {
     lat: response.lat,
-    lon: response.lon,
+    lng: response.lon,
     timezone: response.timezone,
-    current: openWeatherCurrentToData(response.current),
+    current: openWeatherCurrentToCurrent(response.current),
     hourly: response.hourly.map(openWeatherHourlyToData),
     daily: response.daily.map(openWeatherDailyToData)
   };
 };
 
 export const weatherTransformers = {
-  openWeatherOneCallResponseToData
+  openWeatherOneCallResponseToWeather
 };

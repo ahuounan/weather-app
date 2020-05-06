@@ -18,7 +18,10 @@ module.exports = {
   mode: 'development',
   devtool: 'source-map',
   devServer: {
-    hot: true
+    hot: true,
+    historyApiFallback: {
+      index: '/index.html'
+    }
   },
   module: {
     rules: [
