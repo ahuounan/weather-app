@@ -34,7 +34,7 @@ Selectors are placed in both the View and the Store.
 
 The **selectors placed in the Store** are either simple selectors that provide access to a store property, or a curried selector-maker function that returns a dictionary entry based on a key (ie, weather data by location).
 
-The **selectors palced in the View** are co-located with the Container they serve. These selectors are **composed**, combining data from two different parts of the Store to create a coherent piece of data for the Container to render. An example is selecting **weather data** for the **current location**, filtered by the **selected stats**.
+The **selectors placed in the View** are co-located with the Container they serve. These selectors are **composed**, combining data from two different parts of the Store to create a coherent piece of data for the Container to render. An example is selecting **weather data** for the **current location**, filtered by the **selected stats**.
     
 See diagram below for details
 
