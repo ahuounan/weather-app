@@ -25,7 +25,8 @@ export const weatherReducer = (state = initialState, action: WeatherActions) => 
       };
     }
     case WeatherActionTypes.FETCH_SUCCESS: {
-      const { lat, lng } = action.payload;
+      const { weather } = action.payload;
+      const { lat, lng } = weather;
 
       return {
         ...state,
@@ -33,7 +34,7 @@ export const weatherReducer = (state = initialState, action: WeatherActions) => 
         error: false,
         data: {
           ...state.data,
-          [getKey({ lat, lng })]: action.payload
+          [getKey({ lat, lng })]: weather
         }
       };
     }

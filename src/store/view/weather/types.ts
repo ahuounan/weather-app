@@ -1,9 +1,12 @@
+import { Location } from 'models/location';
+
 export interface WeatherViewState {
-  lat?: number;
-  lng?: number;
+  location: {
+    lat?: number;
+    lng?: number;
+  };
 }
 
 export interface SetLocationPayload {
-  lat: number;
-  lng: number;
+  location: Location;
 }

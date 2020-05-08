@@ -1,47 +1,58 @@
 import { call, put, takeLatest, race, delay, take, select } from 'typed-redux-saga';
 
+import { Location } from 'models/location';
+
 import { selectors } from 'store/selectors';
+
+import { BasicAction } from 'types/store';
+
+import { BackgroundPhotoActions } from '../backgroundPhoto/actions';
 
 import { WeatherActionTypes, WeatherActions } from './actions';
 import { WeatherApi } from './api';
 import { weatherTransformers } from './transformers';
+import { WeatherFetchRequestPayload, WeatherStartSubscriptionPayload } from './types';
 
-function* handleWeatherFetchRequest() {
+function* handleWeatherFetchRequest(payload: WeatherFetchRequestPayload) {
   try {
-    const locationWeather = yield* select(selectors.location.getWeather);
-    const cachedTimeStamp = locationWeather?.current.time ?? 0;
+    const { location } = payload;
+
+    yield* put(BackgroundPhotoActions.fetchRequest({ location }));
+
+    const getWeatherDataByLocation = selectors.models.weather.makeGetDataByLocation(location);
+    const weather = yield* select(getWeatherDataByLocation);
+
+    const cachedTimeStamp = weather?.current.time ?? 0;
 
     if (Date.now() - cachedTimeStamp * 1000 < 60 * 60 * 60 * 1000) {
       yield* put(WeatherActions.returnCached());
       return;
     }
 
-    const { lat, lng } = yield* select(selectors.view.weather.getLocation);
-    if (!lat || !lng) throw new Error('malformed location data');
-
-    const { response, data } = yield* call(WeatherApi.get, lat, lng);
+    const { response, data } = yield* call(WeatherApi.get, location);
     if (!response.ok) throw new Error('Api fail');
 
     const transformedData = weatherTransformers.openWeatherOneCallResponseToWeather(data);
-    yield* put(WeatherActions.fetchSuccess(transformedData));
+    yield* put(WeatherActions.fetchSuccess({ weather: transformedData }));
   } catch (e) {
     console.warn('>>>handleWeatherFetchRequest error', e);
     yield* put(WeatherActions.fetchFailure(e.message));
   }
 }
 
-function* pollWeatherApi() {
+function* pollWeatherApi(location: Location) {
   while (true) {
-    yield* put(WeatherActions.fetchRequest());
+    yield* call(handleWeatherFetchRequest, { location });
     yield* delay(60 * 60 * 60 * 1000);
   }
 }
 
-function* handleStartWeatherSubscription() {
-  yield* race([call(pollWeatherApi), take(WeatherActionTypes.STOP_SUBSCRIPTION)]);
+function* handleStartWeatherSubscription(action: BasicAction<WeatherStartSubscriptionPayload>) {
+  const { location } = action.payload;
+
+  yield* race([call(pollWeatherApi, location), take(WeatherActionTypes.STOP_SUBSCRIPTION)]);
 }
 
 export const WeatherSagas = [
-  takeLatest(WeatherActionTypes.FETCH_REQUEST, handleWeatherFetchRequest),
   takeLatest(WeatherActionTypes.START_SUBSCRIPTION, handleStartWeatherSubscription)
 ];

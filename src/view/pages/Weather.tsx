@@ -11,23 +11,25 @@ import { selectors } from 'store/selectors';
 import { Row } from 'view/components/layouts/Row';
 import { Stack } from 'view/components/layouts/Stack';
 import { Icon } from 'view/components/primitives/Icon';
-import { CurrentWeatherDisplay } from 'view/containers/CurrentWeatherDisplay';
-import { DataRow } from 'view/containers/DataRow';
-import { WeatherHeader } from 'view/containers/WeatherHeader';
+import { CurrentWeatherDisplay } from 'view/containers/weather/CurrentWeatherDisplay';
+import { DataRow } from 'view/containers/weather/DataRow';
+import { WeatherHeader } from 'view/containers/weather/WeatherHeader';
+import { BackgroundPhoto } from 'view/containers/weather/BackgroundPhoto';
 
 export const Weather = () => {
   const dispatch = useDispatch();
-  const { lat, lng } = useSelector(selectors.view.weather.getLocation);
+  const location = useSelector(selectors.view.weather.getLocation);
 
   React.useEffect(() => {
-    dispatch(WeatherActions.startSubscription());
+    dispatch(WeatherActions.startSubscription({ location }));
     return () => {
       dispatch(WeatherActions.stopSubscription());
     };
-  }, [lat, lng]);
+  }, [location]);
 
   return (
     <Stack gap={0} verticalAlignment="space-between">
+      <BackgroundPhoto />
       <Row gap={0} horizontalAlignment="space-between">
         <WeatherHeader />
         <Stack gap={1} verticalAlignment="center">

@@ -1,5 +1,9 @@
 import { RootState } from 'store/types';
 
+import { Location } from 'models/location';
+
+import { getKey } from '../utils';
+
 import { geocodeTransformers } from './transformers';
 
 const getState = (state: RootState) => state.models.geocode;
@@ -20,6 +24,12 @@ const makeGetDenormalizedSearchResult = (query: string) => (state: RootState) =>
   return result;
 };
 
+const makeGetDataByLocation = (location: Location) => (state: RootState) => {
+  const key = getKey(location);
+
+  return getLocationData(state)[key];
+};
+
 export const geocodeSelectors = {
   getState,
   getFetching,
@@ -28,5 +38,6 @@ export const geocodeSelectors = {
   getSearchResults,
   getLocationData,
   makeGetResultsByQuery,
-  makeGetDenormalizedSearchResult
+  makeGetDenormalizedSearchResult,
+  makeGetDataByLocation
 };

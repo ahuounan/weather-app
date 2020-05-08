@@ -1,14 +1,16 @@
 import { OpenWeatherOneCallResponse } from 'models/api/openWeatherApi';
 
+import { Location } from 'models/location';
+
 import { http } from 'services';
 
 const apiKey = process.env.OPEN_WEATHER_API_KEY;
 
-const getUrl = (lat: number, lon: number) =>
-  `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+const getUrl = (location: Location) =>
+  `https://api.openweathermap.org/data/2.5/onecall?lat=${location.lat}&lon=${location.lng}&appid=${apiKey}`;
 
-const get = async (lat: number, long: number) =>
-  await http.get<OpenWeatherOneCallResponse>(getUrl(lat, long));
+const get = async (location: Location) =>
+  await http.get<OpenWeatherOneCallResponse>(getUrl(location));
 
 export const WeatherApi = {
   get

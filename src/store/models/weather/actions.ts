@@ -1,6 +1,10 @@
 import { createAction, ActionsUnion } from 'types/store';
 
-import { WeatherFetchSuccessPayload } from './types';
+import {
+  WeatherFetchSuccessPayload,
+  WeatherFetchRequestPayload,
+  WeatherStartSubscriptionPayload
+} from './types';
 
 export enum WeatherActionTypes {
   RETURN_CACHED = '[WEATHER] RETURN_CACHED',
@@ -13,11 +17,13 @@ export enum WeatherActionTypes {
 
 export const WeatherActions = {
   returnCached: () => createAction(WeatherActionTypes.RETURN_CACHED),
-  fetchRequest: () => createAction(WeatherActionTypes.FETCH_REQUEST),
+  fetchRequest: (payload: WeatherFetchRequestPayload) =>
+    createAction(WeatherActionTypes.FETCH_REQUEST, payload),
   fetchFailure: (payload: string) => createAction(WeatherActionTypes.FETCH_FAILURE, payload),
   fetchSuccess: (payload: WeatherFetchSuccessPayload) =>
     createAction(WeatherActionTypes.FETCH_SUCCESS, payload),
-  startSubscription: () => createAction(WeatherActionTypes.START_SUBSCRIPTION),
+  startSubscription: (payload: WeatherStartSubscriptionPayload) =>
+    createAction(WeatherActionTypes.START_SUBSCRIPTION, payload),
   stopSubscription: () => createAction(WeatherActionTypes.STOP_SUBSCRIPTION)
 };
 

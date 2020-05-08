@@ -1,4 +1,5 @@
 import { Weather } from 'models/weather';
+import { Location } from 'models/location';
 
 export interface WeatherState {
   fetching: boolean;
@@ -9,4 +10,14 @@ export interface WeatherState {
   };
 }
 
-export interface WeatherFetchSuccessPayload extends Weather {}
+export interface WeatherFetchSuccessPayload {
+  weather: Weather;
+}
+
+export interface WeatherFetchRequestPayload {
+  location: Location;
+}
+
+export interface WeatherStartSubscriptionPayload {
+  location: Location;
+}
