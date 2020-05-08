@@ -13,7 +13,7 @@ The Store is split into Models (core data) and View (visual state of the views):
   * Geocode (OpenCage data that maps a keyword search to a location expressed as lat:lng, ie London --> 51.51:-0.13)
   * Weather (OpenWeather actual weather data based on location)
   * BackgroundPhotos (Unsplash photos based on a keyword search)
-- Views
+- View
   * Query: current keyword search query
   * Location: current location of the app expressd as lat:lng
   * Settings:
@@ -21,7 +21,7 @@ The Store is split into Models (core data) and View (visual state of the views):
     ~ Data Series to show (hourly or daily)
     ~ Statistics to show (ie wind speed, sunrise time, etc)
     
-The Container components only dispatch View actions. View actions are then handled by View sagas, which trigger Model actions as needed.
+The Container components only dispatch View actions. View actions are then handled by View sagas, which trigger Model actions as needed. I intend to reimplement the View section of the store with the Context Api, keeping only Models in the Redux store.
 
 See diagram below for details
 
