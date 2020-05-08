@@ -1,37 +1,31 @@
 import React from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { icons } from 'assets';
-
-import { WeatherActions } from 'store/models/weather/actions';
-import { useSelector } from 'store/hooks';
-import { selectors } from 'store/selectors';
 
 import { Row } from 'view/components/layouts/Row';
 import { Stack } from 'view/components/layouts/Stack';
 import { Icon } from 'view/components/primitives/Icon';
-import { CurrentWeatherDisplay } from 'view/containers/weather/CurrentWeatherDisplay';
-import { DataRow } from 'view/containers/weather/DataRow';
-import { WeatherHeader } from 'view/containers/weather/WeatherHeader';
-import { BackgroundPhoto } from 'view/containers/weather/BackgroundPhoto';
+import { CurrentWeather } from 'view/containers/location/CurrentWeather';
+import { DataSeries } from 'view/containers/location/DataSeries';
+import { LocationDate } from 'view/containers/location/LocationDate';
+import { BackgroundPhoto } from 'view/containers/location/BackgroundPhoto';
+import { LocationActions } from 'store/view/location/actions';
 
 export const Weather = () => {
+  const { lat, lng } = useParams();
   const dispatch = useDispatch();
-  const location = useSelector(selectors.view.weather.getLocation);
 
   React.useEffect(() => {
-    dispatch(WeatherActions.startSubscription({ location }));
-    return () => {
-      dispatch(WeatherActions.stopSubscription());
-    };
-  }, [location]);
+    dispatch(LocationActions.set({ location: { lat: Number(lat), lng: Number(lng) } }));
+  }, [lat, lng]);
 
   return (
     <Stack gap={0} verticalAlignment="space-between">
       <BackgroundPhoto />
       <Row gap={0} horizontalAlignment="space-between">
-        <WeatherHeader />
+        <LocationDate />
         <Stack gap={1} verticalAlignment="center">
           <Link to="/search">
             <Icon alt="Search" src={icons.search} />
@@ -41,8 +35,8 @@ export const Weather = () => {
           </Link>
         </Stack>
       </Row>
-      <CurrentWeatherDisplay />
-      <DataRow />
+      <CurrentWeather />
+      <DataSeries />
     </Stack>
   );
 };

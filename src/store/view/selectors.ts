@@ -1,9 +1,9 @@
-import { searchSelectors } from './search/selectors';
+import { querySelectors } from './query/selectors';
 import { settingsSelectors } from './settings/selectors';
-import { weatherViewSelectors } from './weather/selectors';
+import { locationSelectors } from './location/selectors';
 
 export const viewSelectors = {
-  search: searchSelectors,
-  weather: weatherViewSelectors,
+  query: querySelectors,
+  location: locationSelectors,
   settings: settingsSelectors
 };

@@ -1,7 +1,5 @@
-import { Location } from 'models/location';
-
-import { SettingsState } from 'store/view/settings/types';
 import { GeocodeSearchResults, GeocodeLocationData } from 'store/models/geocode/types';
+import { SettingsState } from 'store/view/settings/types';
 
 enum Key {
   LOCATION_LAT = 'LOCATION_LAT',
@@ -21,21 +19,6 @@ const get = (key: string) => {
   }
 
   return JSON.parse(rawValue);
-};
-
-const setLocation = ({ lat, lng }: Location) => {
-  set(Key.LOCATION_LAT, lat);
-  set(Key.LOCATION_LNG, lng);
-};
-
-const getLocation = (): Location | undefined => {
-  const lat = get(Key.LOCATION_LAT);
-  const lng = get(Key.LOCATION_LNG);
-  if (!lat || !lng) {
-    return;
-  }
-
-  return { lat, lng: lng };
 };
 
 const setGeocodeData = (data: {
@@ -58,10 +41,6 @@ const getSettings = () => {
 };
 
 export const storage = {
-  location: {
-    set: setLocation,
-    get: getLocation
-  },
   geocode: {
     set: setGeocodeData,
     get: getGeocodeData

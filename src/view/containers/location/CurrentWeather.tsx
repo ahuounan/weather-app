@@ -12,7 +12,7 @@ import { TextComponent, TextType } from 'view/components/primitives/Text/types';
 
 import { getLocationTimezone, getLocationCurrentWeather } from './selectors';
 
-export const CurrentWeatherDisplay = () => {
+export const CurrentWeather = () => {
   const convertTemperature = useConvertTemperature();
 
   const timezone = useSelector(getLocationTimezone);

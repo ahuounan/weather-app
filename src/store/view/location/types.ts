@@ -1,6 +1,6 @@
 import { Location } from 'models/location';
 
-export interface WeatherViewState {
+export interface LocationState {
   location: {
     lat?: number;
     lng?: number;

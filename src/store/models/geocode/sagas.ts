@@ -8,13 +8,14 @@ import { BasicAction } from 'types/store';
 
 import { GeocodeActionTypes, GeocodeActions } from './actions';
 import { GeocodeApi } from './api';
+import { geocodeSelectors } from './selectors';
 import { geocodeTransformers } from './transformers';
 import { GeocodeFetchRequestPayload } from './types';
 
 function* handleGeocodeQuery(action: BasicAction<GeocodeFetchRequestPayload>) {
   const { placename } = action.payload;
 
-  const getQueryData = selectors.models.geocode.makeGetResultsByQuery(placename);
+  const getQueryData = geocodeSelectors.makeGetResultsByQuery(placename);
   const existingData = yield* select(getQueryData);
 
   if (existingData) {
@@ -53,7 +54,7 @@ function* handleGeocodeFetchSuccess() {
 }
 
 export const GeocodeSagas = [
-  takeLatest(GeocodeActionTypes.QUERY, handleGeocodeQuery),
+  debounce(500, GeocodeActionTypes.QUERY, handleGeocodeQuery),
   takeLatest(GeocodeActionTypes.FETCH_SUCCESS, handleGeocodeFetchSuccess),
-  debounce(500, GeocodeActionTypes.FETCH_REQUEST, handleGeocodeFetchRequest)
+  takeLatest(GeocodeActionTypes.FETCH_REQUEST, handleGeocodeFetchRequest)
 ];

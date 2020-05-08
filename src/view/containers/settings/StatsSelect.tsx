@@ -16,7 +16,7 @@ interface Props {
   section: DataSection;
 }
 
-export const DataSeriesSettings = (props: Props) => {
+export const StatsSelect = (props: Props) => {
   const { section } = props;
   const dispatch = useDispatch();
   const getSettings = selectors.view.settings.makeGetDataSeriesSettings(section);
