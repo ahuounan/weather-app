@@ -2,14 +2,11 @@ import { call, put, takeLatest, race, delay, take, select } from 'typed-redux-sa
 
 import { Location } from 'models/location';
 
-import { selectors } from 'store/selectors';
-
 import { BasicAction } from 'types/store';
-
-import { BackgroundPhotoActions } from '../backgroundPhoto/actions';
 
 import { WeatherActionTypes, WeatherActions } from './actions';
 import { WeatherApi } from './api';
+import { weatherSelectors } from './selectors';
 import { weatherTransformers } from './transformers';
 import { WeatherFetchRequestPayload, WeatherStartSubscriptionPayload } from './types';
 
@@ -17,14 +14,12 @@ function* handleWeatherFetchRequest(payload: WeatherFetchRequestPayload) {
   try {
     const { location } = payload;
 
-    yield* put(BackgroundPhotoActions.fetchRequest({ location }));
-
-    const getWeatherDataByLocation = selectors.models.weather.makeGetDataByLocation(location);
+    const getWeatherDataByLocation = weatherSelectors.makeGetDataByLocation(location);
     const weather = yield* select(getWeatherDataByLocation);
 
-    const cachedTimeStamp = weather?.current.time ?? 0;
+    const currentWeatherTime = weather?.current.time ?? 0;
 
-    if (Date.now() - cachedTimeStamp * 1000 < 60 * 60 * 60 * 1000) {
+    if (Date.now() - currentWeatherTime * 1000 < 60 * 60 * 60 * 1000) {
       yield* put(WeatherActions.returnCached());
       return;
     }

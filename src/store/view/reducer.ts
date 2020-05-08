@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
-import { searchReducer } from './search/reducer';
+import { queryReducer } from './query/reducer';
 import { settingsReducer } from './settings/reducer';
-import { weatherViewReducer } from './weather/reducer';
+import { locationReducer } from './location/reducer';
 
 export const viewReducer = combineReducers({
-  search: searchReducer,
+  query: queryReducer,
   settings: settingsReducer,
-  weather: weatherViewReducer
+  location: locationReducer
 });

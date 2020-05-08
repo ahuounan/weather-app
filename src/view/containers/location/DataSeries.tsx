@@ -13,7 +13,7 @@ import { formatTime } from 'utils';
 
 import { getLocationTimezone, getDisplayedLocationDataSeries } from './selectors';
 
-export const DataRow = () => {
+export const DataSeries = () => {
   const dataSeries: (Partial<WeatherDaily> | Partial<WeatherHourly>)[] | undefined = useSelector(
     getDisplayedLocationDataSeries
   );

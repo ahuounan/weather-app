@@ -1,9 +1,9 @@
-import { SearchState } from './search/types';
-import { WeatherViewState } from './weather/types';
+import { QueryState } from './query/types';
+import { LocationState } from './location/types';
 import { SettingsState } from './settings/types';
 
 export interface ViewState {
-  search: SearchState;
-  weather: WeatherViewState;
+  query: QueryState;
+  location: LocationState;
   settings: SettingsState;
 }

@@ -10,12 +10,19 @@ import {
 
 const cleanQuery = (placename: string) => placename?.trim().toLowerCase();
 
-const openCageApiResultToGeocode = (rawResult: OpenCageApiResult): Geocode => ({
-  label: rawResult.formatted,
-  lat: rawResult.geometry.lat,
-  lng: rawResult.geometry.lng,
-  id: getKey({ lat: rawResult.geometry.lat, lng: rawResult.geometry.lng })
-});
+const openCageApiResultToGeocode = (rawResult: OpenCageApiResult): Geocode => {
+  const { lat, lng } = rawResult.geometry;
+  const id = getKey({ lat, lng });
+
+  return {
+    label: rawResult.formatted,
+    location: {
+      lat: Math.round(lat * 100) / 100,
+      lng: Math.round(lng * 100) / 100
+    },
+    id
+  };
+};
 
 const normalizeOpenCageApiResponse = (
   openCageApiResponse: OpenCageApiResponse

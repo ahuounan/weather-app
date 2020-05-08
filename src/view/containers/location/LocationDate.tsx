@@ -10,7 +10,7 @@ import { formatDate } from 'utils';
 
 import { getLocationLabel } from './selectors';
 
-export const WeatherHeader = () => {
+export const LocationDate = () => {
   const label = useSelector(getLocationLabel);
 
   return (
