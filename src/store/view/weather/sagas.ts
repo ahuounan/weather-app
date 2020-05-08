@@ -7,11 +7,9 @@ import { SetLocationPayload } from './types';
 import { storage } from 'services';
 
 function* handleSetLocation(action: BasicAction<SetLocationPayload>) {
-  const {
-    payload: { lat, lng }
-  } = action;
+  const { location } = action.payload;
 
-  storage.location.set({ lat, lng });
+  storage.location.set(location);
 }
 
 export const WeatherViewSagas = [

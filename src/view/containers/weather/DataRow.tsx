@@ -1,21 +1,23 @@
 import React from 'react';
 import { omit, map } from 'lodash';
 
-import { useSelector } from 'store/hooks';
-import { selectors } from 'store/selectors';
+import { WeatherHourly, WeatherDaily } from 'models/weather';
 
-import { formatTime } from 'utils';
+import { useSelector } from 'store/hooks';
 
 import { Row } from 'view/components/layouts/Row';
 import { Scroller } from 'view/components/layouts/Scroller';
 import { WeatherCard } from 'view/components/patterns/WeatherCard';
-import { WeatherHourly, WeatherDaily } from 'models/weather';
+
+import { formatTime } from 'utils';
+
+import { getLocationTimezone, getDisplayedLocationDataSeries } from './selectors';
 
 export const DataRow = () => {
   const dataSeries: (Partial<WeatherDaily> | Partial<WeatherHourly>)[] | undefined = useSelector(
-    selectors.displayed.getDataSeries
+    getDisplayedLocationDataSeries
   );
-  const timezone = useSelector(selectors.location.getTimezone);
+  const timezone = useSelector(getLocationTimezone);
 
   if (!dataSeries) return <div>loading</div>;
 

@@ -10,10 +10,10 @@ import { Row } from 'view/components/layouts/Row';
 import { Stack } from 'view/components/layouts/Stack';
 import { Text } from 'view/components/primitives/Text';
 import { Icon } from 'view/components/primitives/Icon';
-import { TemperatureUnitSelect } from 'view/containers/TemperatureUnitSelect';
-import { DataSeriesSelect } from 'view/containers/DataSeriesSelect';
+import { TemperatureUnitSelect } from 'view/containers/settings/TemperatureUnitSelect';
+import { DataSeriesSelect } from 'view/containers/settings/DataSeriesSelect';
 import { WrapRow } from 'view/components/layouts/WrapRow';
-import { DataSeriesSettings } from 'view/containers/DataSeriesSettings';
+import { DataSeriesSettings } from 'view/containers/settings/DataSeriesSettings';
 
 export const Settings = () => {
   return (

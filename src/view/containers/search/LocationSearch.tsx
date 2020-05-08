@@ -17,10 +17,12 @@ import { TextComponent, TextType } from 'view/components/primitives/Text/types';
 import { Input } from 'view/components/primitives/Input';
 import { InputComponent, InputType } from 'view/components/primitives/Input/types';
 
+import { getCurrentSearchResult } from './selectors';
+
 export const LocationSearch = () => {
   const dispatch = useDispatch();
   const query = useSelector(selectors.view.search.getQuery);
-  const results = useSelector(selectors.getCurrentSearchResult);
+  const results = useSelector(getCurrentSearchResult);
   const isFetching = useSelector(selectors.models.geocode.getFetching);
 
   React.useEffect(() => {
@@ -57,7 +59,8 @@ export const LocationSearch = () => {
           ) : !results ? null : (
             results.map(({ lat, lng, id, label }: Geocode) => {
               const handleClick = () => {
-                dispatch(WeatherViewActions.setLocation({ lat: lat, lng: lng }));
+                dispatch(WeatherViewActions.setLocation({ location: { lat, lng } }));
+                dispatch(SearchActions.updateQuery(''));
               };
 
               return (

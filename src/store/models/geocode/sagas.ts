@@ -12,17 +12,13 @@ import { geocodeTransformers } from './transformers';
 import { GeocodeFetchRequestPayload } from './types';
 
 function* handleGeocodeQuery(action: BasicAction<GeocodeFetchRequestPayload>) {
-  const {
-    payload: { placename }
-  } = action;
+  const { placename } = action.payload;
 
-  const cleanedQuery = geocodeTransformers.cleanQuery(placename);
-
-  const getQueryData = selectors.models.geocode.makeGetResultsByQuery(cleanedQuery);
+  const getQueryData = selectors.models.geocode.makeGetResultsByQuery(placename);
   const existingData = yield* select(getQueryData);
 
   if (existingData) {
-    yield put(GeocodeActions.returnCached());
+    yield* put(GeocodeActions.returnCached());
     return;
   }
 
@@ -31,24 +27,22 @@ function* handleGeocodeQuery(action: BasicAction<GeocodeFetchRequestPayload>) {
     return;
   }
 
-  yield put(GeocodeActions.fetchRequest({ placename: cleanedQuery }));
+  yield* put(GeocodeActions.fetchRequest({ placename }));
 }
 
 function* handleGeocodeFetchRequest(action: BasicAction<GeocodeFetchRequestPayload>) {
   try {
-    const {
-      payload: { placename }
-    } = action;
+    const { placename } = action.payload;
 
     const { response, data } = yield* call(GeocodeApi.get, placename);
     if (!response.ok) throw new Error('api fail');
 
     const { searchResult, locationData } = geocodeTransformers.normalizeOpenCageApiResponse(data);
 
-    yield put(GeocodeActions.fetchSuccess({ placename, searchResult, locationData }));
+    yield* put(GeocodeActions.fetchSuccess({ placename, searchResult, locationData }));
   } catch (e) {
     console.debug('>>>handleGeocodeFetchRequest', e);
-    yield put(GeocodeActions.fetchFailure(e.message));
+    yield* put(GeocodeActions.fetchFailure(e.message));
   }
 }
 

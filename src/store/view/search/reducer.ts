@@ -1,5 +1,6 @@
 import { SearchActions, SearchActionTypes } from './actions';
 import { SearchState } from './types';
+import { cleanQuery } from './utils';
 
 const initialState: SearchState = {
   query: ''
@@ -10,7 +11,7 @@ export const searchReducer = (state = initialState, action: SearchActions) => {
     case SearchActionTypes.UPDATE_QUERY: {
       return {
         ...state,
-        query: action.payload
+        query: cleanQuery(action.payload)
       };
     }
     default: {
