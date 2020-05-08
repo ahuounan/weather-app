@@ -1,5 +1,8 @@
 # Example Weather App based on React/Redux/Saga Architecture
-An example Weather App based on a React/Redux/Saga architecture. The App is split into two main sections: View and Store.
+An example Weather App based on a React/Redux/Saga architecture. The intention of this app is to showcase an implementation of an app based on **classic React/Redux architecture**. The App is split into two main sections: View and Store.
+
+The (currently rather ugly) app is hosted at
+http://weather-app.s3-website.eu-west-2.amazonaws.com/weather/39.91/116.39
 
 ## View
 The View uses a classic Pages/Container/Component split:
