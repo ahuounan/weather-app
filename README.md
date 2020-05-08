@@ -14,7 +14,9 @@ The View uses a classic Pages/Container/Component split:
 The Store is split into Models (core data) and View (visual state of the views):
 - Models
   * Geocode (OpenCage data that maps a keyword search to a location expressed as lat:lng, ie London --> 51.51:-0.13)
-  * Weather (OpenWeather actual weather data based on location)
+    * Normalized list of search results, keyed by query string
+    * Dictionary of Geocode data, keyed by location (lat:lng)
+  * Weather (OpenWeather actual weather data based on location), keyed by location (lat:lng)
     * Current weather data
     * Hourly forecast weather data
     * Daily forecast weather data
