@@ -25,7 +25,7 @@ export const CurrentWeather = () => {
   return (
     <Stack gap={1} horizontalAlignment="center" padding={1}>
       <Text as={TextComponent.H1} type={TextType.HEADER}>
-        {time ? formatTime(new Date(time * 1000), timezone) : 'Loading...'}
+        {time ? formatTime(new Date(time), timezone) : 'Loading...'}
       </Text>
       {icon && description && (
         <Icon

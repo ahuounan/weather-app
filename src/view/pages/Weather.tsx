@@ -7,10 +7,10 @@ import { icons } from 'assets';
 import { Row } from 'view/components/layouts/Row';
 import { Stack } from 'view/components/layouts/Stack';
 import { Icon } from 'view/components/primitives/Icon';
-import { CurrentWeather } from 'view/containers/location/CurrentWeather';
-import { DataSeries } from 'view/containers/location/DataSeries';
-import { LocationDate } from 'view/containers/location/LocationDate';
-import { BackgroundPhoto } from 'view/containers/location/BackgroundPhoto';
+import { CurrentWeather } from 'view/containers/weather/CurrentWeather';
+import { DataSeries } from 'view/containers/weather/DataSeries';
+import { LocationDate } from 'view/containers/weather/LocationDate';
+import { BackgroundPhoto } from 'view/containers/weather/BackgroundPhoto';
 import { LocationActions } from 'store/view/location/actions';
 
 export const Weather = () => {
