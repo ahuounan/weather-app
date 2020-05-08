@@ -46,5 +46,6 @@ See diagram below for details
 ## To Run
 - `git clone` the project
 - run `npm i`
+- fill in API keys in .env file
 - run `npm run start`
-- Open in localhost:8080
+- open in localhost:8080
