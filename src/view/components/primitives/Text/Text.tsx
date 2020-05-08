@@ -6,47 +6,47 @@ import { TextProps, TextComponent } from './types';
 import { useTheme } from 'view/theme/hooks';
 
 export const Text = (props: TextProps) => {
-  const { children } = props;
+  const { children, styles } = props;
   const theme = useTheme();
-  const styles = buildStyles(theme);
+  const defaultStyles = buildStyles(theme);
 
   switch (props.as) {
     case TextComponent.P: {
       const { type } = props;
-      const remainingProps = omit(props, 'as', 'type');
+      const remainingProps = omit(props, 'as', 'type', 'styles');
 
       return (
-        <p css={[styles.default, styles[type]]} {...remainingProps}>
+        <p css={[defaultStyles.default, defaultStyles[type], styles]} {...remainingProps}>
           {children}
         </p>
       );
     }
     case TextComponent.LABEL: {
       const { type } = props;
-      const remainingProps = omit(props, 'as', 'type');
+      const remainingProps = omit(props, 'as', 'type', 'styles');
 
       return (
-        <label css={[styles.default, styles[type]]} {...remainingProps}>
+        <label css={[defaultStyles.default, defaultStyles[type], styles]} {...remainingProps}>
           {children}
         </label>
       );
     }
     case TextComponent.H1: {
       const { type } = props;
-      const remainingProps = omit(props, 'as', 'type');
+      const remainingProps = omit(props, 'as', 'type', 'styles');
 
       return (
-        <h1 css={[styles.default, styles[type]]} {...remainingProps}>
+        <h1 css={[defaultStyles.default, defaultStyles[type], styles]} {...remainingProps}>
           {children}
         </h1>
       );
     }
     case TextComponent.H2: {
       const { type } = props;
-      const remainingProps = omit(props, 'as', 'type');
+      const remainingProps = omit(props, 'as', 'type', 'styles');
 
       return (
-        <h2 css={[styles.default, styles[type]]} {...remainingProps}>
+        <h2 css={[defaultStyles.default, defaultStyles[type], styles]} {...remainingProps}>
           {children}
         </h2>
       );
