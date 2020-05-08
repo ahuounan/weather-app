@@ -1,120 +1,48 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { geocodeSelectors } from 'store/data/geocode/selectors';
-import { RootState } from 'store/types';
+import { icons } from 'assets';
+
+import { WeatherActions } from 'store/models/weather/actions';
 import { useSelector } from 'store/hooks';
-import { WeatherActions } from 'store/data/weather/actions';
-import { Box } from 'view/components/layouts/Box';
-import { Text } from 'view/components/primitives/Text';
-import { TextComponent, TextType } from 'view/components/primitives/Text/types';
-import { weatherSelectors } from 'store/data/weather/selectors';
+import { selectors } from 'store/selectors';
+
 import { Row } from 'view/components/layouts/Row';
-import { Wrapper } from 'view/components/layouts/Wrapper';
-
-const formatDate = (date: Date) => {
-  const options = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  };
-  return new Intl.DateTimeFormat('en-US', options).format(date);
-};
-
-const formatTime = (time: Date, timeZone: string) => {
-  const options = {
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    timeZone: timeZone,
-    timeZoneName: 'short'
-  };
-  return new Intl.DateTimeFormat('en-US', options).format(time);
-};
+import { Stack } from 'view/components/layouts/Stack';
+import { Icon } from 'view/components/primitives/Icon';
+import { CurrentWeatherDisplay } from 'view/containers/weather/CurrentWeatherDisplay';
+import { DataRow } from 'view/containers/weather/DataRow';
+import { WeatherHeader } from 'view/containers/weather/WeatherHeader';
+import { BackgroundPhoto } from 'view/containers/weather/BackgroundPhoto';
 
 export const Weather = () => {
-  const { id } = useParams();
-  const result = useSelector((state: RootState) =>
-    geocodeSelectors.getDataById(state, id)
-  );
-
-  if (!result) {
-    return <div>error!</div>;
-  }
-
-  const {
-    geometry: { lat, lng },
-    label
-  } = result;
-
   const dispatch = useDispatch();
-  React.useEffect(() => {
-    dispatch(WeatherActions.weatherStartSubscription({ lat, lng }));
-    return () => {
-      dispatch(WeatherActions.weatherStopSubscription());
-    };
-  }, [lat, lng]);
+  const location = useSelector(selectors.view.weather.getLocation);
 
-  const weatherData = useSelector((state: RootState) =>
-    weatherSelectors.getWeatherDataByLatLng(state, lat, lng)
-  );
+  React.useEffect(() => {
+    dispatch(WeatherActions.startSubscription({ location }));
+    return () => {
+      dispatch(WeatherActions.stopSubscription());
+    };
+  }, [location]);
 
   return (
-    <Box>
-      <Wrapper>
-        <Link to="/search">
-          <Text as={TextComponent.P} type={TextType.BODY}>
-            Change Location
-          </Text>
-        </Link>
-        <Text as={TextComponent.H1} type={TextType.HEADER}>
-          {label}
-        </Text>
-        <Link to="/settings">
-          <Text as={TextComponent.P} type={TextType.BODY}>
-            Settings
-          </Text>
-        </Link>
-        <Text as={TextComponent.H1} type={TextType.HEADER}>
-          {formatDate(new Date())}
-        </Text>
-      </Wrapper>
-      {weatherData?.current && (
-        <Wrapper>
-          <Text as={TextComponent.H2} type={TextType.SUBHEADER}>
-            {formatTime(
-              new Date(weatherData?.current?.timestamp),
-              weatherData.timezone
-            )}
-          </Text>
-          <Text as={TextComponent.H2} type={TextType.SUBHEADER}>
-            {weatherData?.current?.weather.icon}
-          </Text>
-          <Text as={TextComponent.H2} type={TextType.SUBHEADER}>
-            {weatherData?.current?.temp}
-          </Text>
-        </Wrapper>
-      )}
-      <Row>
-        {weatherData?.hourly.map(data => (
-          <Wrapper key={data.timestamp}>
-            <Text as={TextComponent.H2} type={TextType.SUBHEADER}>
-              {formatTime(
-                new Date(data?.timestamp * 1000),
-                weatherData.timezone
-              )}
-            </Text>
-            <Text as={TextComponent.H2} type={TextType.SUBHEADER}>
-              {data?.weather.icon}
-            </Text>
-            <Text as={TextComponent.H2} type={TextType.SUBHEADER}>
-              {data?.temp}
-            </Text>
-          </Wrapper>
-        ))}
+    <Stack gap={0} verticalAlignment="space-between">
+      <BackgroundPhoto />
+      <Row gap={0} horizontalAlignment="space-between">
+        <WeatherHeader />
+        <Stack gap={1} verticalAlignment="center">
+          <Link to="/search">
+            <Icon alt="Search" src={icons.search} />
+          </Link>
+          <Link to="/settings">
+            <Icon alt="Settings" src={icons.settings} />
+          </Link>
+        </Stack>
       </Row>
-    </Box>
+      <CurrentWeatherDisplay />
+      <DataRow />
+    </Stack>
   );
 };

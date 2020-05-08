@@ -1,11 +1,14 @@
 import React from 'react';
 import { omit } from 'lodash';
 
+import { useTheme } from 'view/theme/hooks';
+
 import { buildStyles } from './styles';
 import { InputProps, InputType } from './types';
 
 export const Input = (props: InputProps) => {
-  const styles = buildStyles();
+  const theme = useTheme();
+  const styles = buildStyles(theme);
 
   switch (props.type) {
     case InputType.BUTTON: {
@@ -13,10 +16,7 @@ export const Input = (props: InputProps) => {
       const remainingProps = omit(props, 'children', 'css', 'type');
 
       return (
-        <button
-          css={[styles.default, styles[InputType.BUTTON], css]}
-          {...remainingProps}
-        >
+        <button css={[styles.default, styles[InputType.BUTTON], css]} {...remainingProps}>
           {children}
         </button>
       );
@@ -41,6 +41,18 @@ export const Input = (props: InputProps) => {
         <input
           type="text"
           css={[styles.default, styles[InputType.TEXT], css]}
+          {...remainingProps}
+        />
+      );
+    }
+    case InputType.CHECKBOX: {
+      const { css } = props;
+      const remainingProps = omit(props, 'css');
+
+      return (
+        <input
+          type="checkbox"
+          css={[styles.default, styles[InputType.CHECKBOX], css]}
           {...remainingProps}
         />
       );

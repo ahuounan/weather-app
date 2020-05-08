@@ -1,2 +1,7 @@
 node_modules
 dist
+webpack.dev.js
+webpack.prod.js
+.prettierrc.js
+.eslintrc.js
+.DS_Store

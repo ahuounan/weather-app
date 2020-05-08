@@ -3,10 +3,12 @@ import { omit } from 'lodash';
 
 import { buildStyles } from './styles';
 import { TextProps, TextComponent } from './types';
+import { useTheme } from 'view/theme/hooks';
 
 export const Text = (props: TextProps) => {
   const { children, styles } = props;
-  const defaultStyles = buildStyles();
+  const theme = useTheme();
+  const defaultStyles = buildStyles(theme);
 
   switch (props.as) {
     case TextComponent.P: {
@@ -14,10 +16,7 @@ export const Text = (props: TextProps) => {
       const remainingProps = omit(props, 'as', 'type', 'styles');
 
       return (
-        <p
-          css={[defaultStyles.default, defaultStyles[type], styles]}
-          {...remainingProps}
-        >
+        <p css={[defaultStyles.default, defaultStyles[type], styles]} {...remainingProps}>
           {children}
         </p>
       );
@@ -27,10 +26,7 @@ export const Text = (props: TextProps) => {
       const remainingProps = omit(props, 'as', 'type', 'styles');
 
       return (
-        <label
-          css={[defaultStyles.default, defaultStyles[type], styles]}
-          {...remainingProps}
-        >
+        <label css={[defaultStyles.default, defaultStyles[type], styles]} {...remainingProps}>
           {children}
         </label>
       );
@@ -40,10 +36,7 @@ export const Text = (props: TextProps) => {
       const remainingProps = omit(props, 'as', 'type', 'styles');
 
       return (
-        <h1
-          css={[defaultStyles.default, defaultStyles[type], styles]}
-          {...remainingProps}
-        >
+        <h1 css={[defaultStyles.default, defaultStyles[type], styles]} {...remainingProps}>
           {children}
         </h1>
       );
@@ -53,10 +46,7 @@ export const Text = (props: TextProps) => {
       const remainingProps = omit(props, 'as', 'type', 'styles');
 
       return (
-        <h2
-          css={[defaultStyles.default, defaultStyles[type], styles]}
-          {...remainingProps}
-        >
+        <h2 css={[defaultStyles.default, defaultStyles[type], styles]} {...remainingProps}>
           {children}
         </h2>
       );

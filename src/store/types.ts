@@ -1,9 +1,7 @@
-import { GeocodeState } from './data/geocode/types';
-import { WeatherState } from './data/weather/types';
-import { SettingsState } from './settings/types';
+import { ModelState } from './models/types';
+import { ViewState } from './view/types';
 
 export interface RootState {
-  geocode: GeocodeState;
-  weather: WeatherState;
-  settings: SettingsState;
+  models: ModelState;
+  view: ViewState;
 }

@@ -6,20 +6,9 @@ const CompressionPlugin = require('compression-webpack-plugin');
 require('dotenv').config();
 
 module.exports = {
-  mode: 'production',
-  devtool: false,
   resolve: {
-    extensions: ['.ts', '.tsx', '.js'],
+    extensions: ['.css', '.ts', '.tsx', '.js'],
     modules: ['src', 'node_modules']
-  },
-  module: {
-    rules: [
-      {
-        loader: 'babel-loader',
-        include: /src/,
-        options: { cacheDirectory: true }
-      }
-    ]
   },
   entry: path.join(__dirname, 'src', '/index.tsx'),
   output: {
@@ -27,15 +16,35 @@ module.exports = {
     publicPath: '/',
     path: path.join(__dirname, 'dist')
   },
+  mode: 'production',
+  devtool: false,
+  module: {
+    rules: [
+      {
+        loader: 'babel-loader',
+        include: /src/,
+        options: { cacheDirectory: true }
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      }
+    ]
+  },
   plugins: [
     new webpack.EnvironmentPlugin({ ...process.env }),
     new HtmlWebpackPlugin({
       title: 'Weather App',
       filename: './index.html', //relative to root of the application
       template: './index.html'
-    }),
-    new CompressionPlugin({
-      deleteOriginalAssets: true
     })
   ]
 };
