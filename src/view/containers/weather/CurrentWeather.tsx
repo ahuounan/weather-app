@@ -21,7 +21,6 @@ export const CurrentWeather = () => {
   if (!weatherData) return <div>loading</div>;
 
   const { time, description, temp, icon } = weatherData;
-  console.log(time, timezone);
 
   return (
     <Stack gap={1} horizontalAlignment="center" padding={1}>
