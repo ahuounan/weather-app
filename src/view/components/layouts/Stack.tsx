@@ -5,6 +5,7 @@ import { useTheme } from 'view/theme/hooks';
 import { makeRem } from 'view/theme/utils';
 
 import { Box } from './Box';
+import { CSSObjects } from 'types/styles';
 
 interface Props {
   children: React.ReactNode;
@@ -13,6 +14,7 @@ interface Props {
   horizontalAlignment?: CSSProperties['alignItems'];
   verticalAlignment?: CSSProperties['justifyContent'];
   padding?: number;
+  styles?: CSSObjects;
 }
 
 const buildStyles = (): Record<string, CSSObject> => ({
@@ -23,15 +25,15 @@ const buildStyles = (): Record<string, CSSObject> => ({
 });
 
 export const Stack = (props: Props) => {
-  const { children, flex, gap, padding, horizontalAlignment, verticalAlignment } = props;
+  const { children, flex, gap, padding, horizontalAlignment, verticalAlignment, styles } = props;
   const theme = useTheme();
-  const styles = buildStyles();
+  const defaultStyles = buildStyles();
 
   return (
     <Box
       flex={flex}
       styles={[
-        styles.stack,
+        defaultStyles.stack,
         {
           '& > * + *': {
             marginTop: `${makeRem(theme.scale[gap])} !important`
@@ -42,7 +44,8 @@ export const Stack = (props: Props) => {
           alignItems: horizontalAlignment,
           justifyContent: verticalAlignment,
           padding: padding && makeRem(theme.scale[padding])
-        }
+        },
+        styles
       ]}
     >
       {children}

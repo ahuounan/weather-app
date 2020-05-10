@@ -10,12 +10,13 @@ import { BackgroundPhotoApi } from './api';
 import { BackgroundPhotoTransformer } from './transformers';
 import { FetchPhotosRequestPayload } from './types';
 
-function* handleFetchBackgroundViewRequest(action: BasicAction<FetchPhotosRequestPayload>) {
+function* handleFetchBackgroundPhotoRequest(action: BasicAction<FetchPhotosRequestPayload>) {
   try {
     const { location } = action.payload;
 
     const getGeocodeDatabyLocation = selectors.models.geocode.makeGetDataByLocation(location);
     const { label } = yield* select(getGeocodeDatabyLocation);
+    if (!label) throw new Error('No label for location');
 
     const { response, data } = yield* call(BackgroundPhotoApi.get, label);
     if (!response.ok) throw new Error('Api fail');
@@ -28,11 +29,11 @@ function* handleFetchBackgroundViewRequest(action: BasicAction<FetchPhotosReques
       })
     );
   } catch (e) {
-    console.warn('>>>handleFetchBackgroundViewRequest error', e);
+    console.warn('>>>handleFetchBackgroundPhotoRequest error', e);
     yield* put(BackgroundPhotoActions.fetchFailure(e.message));
   }
 }
 
 export const BackgroundPhotoSagas = [
-  debounce(500, BackgroundPhotoActionTypes.FETCH_PHOTOS_REQUEST, handleFetchBackgroundViewRequest)
+  debounce(500, BackgroundPhotoActionTypes.FETCH_PHOTOS_REQUEST, handleFetchBackgroundPhotoRequest)
 ];

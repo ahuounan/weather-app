@@ -24,9 +24,10 @@ export type HeadingProps = React.HTMLProps<HTMLHeadingElement> &
 
 export type SharedTextProps = {
   styles?: CSSObjects;
+  wrap?: boolean;
 };
 
-export type TextProps = (ParagraphProps | LabelProps | HeadingProps) & SharedTextProps;
+export type TextProps = SharedTextProps & (ParagraphProps | LabelProps | HeadingProps);
 
 export enum TextType {
   HEADER = 'HEADER',

@@ -14,11 +14,15 @@ export const LocationDate = () => {
   const label = useSelector(getLocationLabel);
 
   return (
-    <Stack gap={1} verticalAlignment="center">
-      <Text as={TextComponent.H2} type={TextType.SUBHEADER}>
-        {label || 'Loading...'}
+    <Stack gap={1} verticalAlignment="center" padding={1}>
+      <Text
+        styles={{ color: 'white', whiteSpace: 'normal' }}
+        as={TextComponent.H2}
+        type={TextType.SUBHEADER}
+      >
+        {label}
       </Text>
-      <Text as={TextComponent.H2} type={TextType.SUBHEADER}>
+      <Text styles={{ color: 'white' }} as={TextComponent.H2} type={TextType.SUBHEADER}>
         {formatDate(new Date())}
       </Text>
     </Stack>

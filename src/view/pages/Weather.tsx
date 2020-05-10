@@ -24,9 +24,13 @@ export const Weather = () => {
   return (
     <Stack gap={0} verticalAlignment="space-between">
       <BackgroundPhoto />
-      <Row gap={0} horizontalAlignment="space-between">
+      <Row
+        gap={0}
+        horizontalAlignment="space-between"
+        styles={{ background: 'rgba(0, 0, 0, 0.85)' }}
+      >
         <LocationDate />
-        <Stack gap={1} verticalAlignment="center">
+        <Stack gap={1} verticalAlignment="center" padding={1}>
           <Link to="/search">
             <Icon alt="Search" src={icons.search} />
           </Link>

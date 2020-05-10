@@ -8,7 +8,17 @@ export const formatDate = (date: Date) => {
   return new Intl.DateTimeFormat('en-US', options).format(date);
 };
 
-export const formatTime = (time: Date, timeZone = 'en-US', showSeconds = true) => {
+export const formatShortDate = (date: Date) => {
+  const options = {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric'
+  };
+  return new Intl.DateTimeFormat('en-US', options).format(date);
+};
+
+export const formatTime = (time: Date, timeZone: string, showSeconds = true) => {
   const options = {
     hour: 'numeric',
     minute: 'numeric',

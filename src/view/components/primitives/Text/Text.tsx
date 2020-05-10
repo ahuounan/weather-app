@@ -1,9 +1,10 @@
 import React from 'react';
 import { omit } from 'lodash';
 
+import { useTheme } from 'view/theme/hooks';
+
 import { buildStyles } from './styles';
 import { TextProps, TextComponent } from './types';
-import { useTheme } from 'view/theme/hooks';
 
 export const Text = (props: TextProps) => {
   const { children, styles } = props;

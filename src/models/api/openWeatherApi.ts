@@ -61,8 +61,12 @@ export interface OpenWeatherCommon {
   wind_speed: number;
   wind_gust: number;
   wind_deg: number;
-  rain: number;
-  snow: number;
+  rain: {
+    '1h': number;
+  };
+  snow: {
+    '1h': number;
+  };
   weather: [
     {
       id: number;

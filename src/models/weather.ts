@@ -7,6 +7,12 @@ export interface Weather extends Location {
   daily: WeatherDaily[];
 }
 
+export type WeatherStats = WeatherCurrentStats | WeatherHourlyStats | WeatherDailyStats;
+
+export type WeatherCurrentStats = keyof WeatherCurrent;
+export type WeatherHourlyStats = keyof WeatherHourly;
+export type WeatherDailyStats = keyof WeatherDaily;
+
 export interface WeatherCurrent extends HourlyTemperatures, SunRiseSetTimes, WeatherCommon {}
 
 export interface WeatherHourly extends HourlyTemperatures, WeatherCommon {}
