@@ -10,7 +10,7 @@ import { weatherSelectors } from './selectors';
 import { weatherTransformers } from './transformers';
 import { WeatherFetchRequestPayload, WeatherStartSubscriptionPayload } from './types';
 
-function* handleWeatherFetchRequest(payload: WeatherFetchRequestPayload) {
+function* weatherFetchRequest(payload: WeatherFetchRequestPayload) {
   try {
     const { location } = payload;
 
@@ -30,14 +30,14 @@ function* handleWeatherFetchRequest(payload: WeatherFetchRequestPayload) {
     const transformedData = weatherTransformers.openWeatherOneCallResponseToWeather(data);
     yield* put(WeatherActions.fetchSuccess({ weather: transformedData }));
   } catch (e) {
-    console.warn('>>>handleWeatherFetchRequest error', e);
+    console.warn('>>>weatherFetchRequest error', e);
     yield* put(WeatherActions.fetchFailure(e.message));
   }
 }
 
 function* pollWeatherApi(location: Location) {
   while (true) {
-    yield* call(handleWeatherFetchRequest, { location });
+    yield* call(weatherFetchRequest, { location });
     yield* delay(60 * 60 * 60 * 1000);
   }
 }

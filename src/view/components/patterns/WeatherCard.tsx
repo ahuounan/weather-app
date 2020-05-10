@@ -24,7 +24,7 @@ export const WeatherCard = (props: Props) => {
   const { time, icon, data } = props;
 
   return (
-    <Stack gap={1} padding={2}>
+    <Stack gap={1} padding={2} styles={{ background: 'rgba(255, 255, 255, 0.85)' }}>
       <Text as={TextComponent.H2} type={TextType.SUBHEADER} styles={{ whiteSpace: 'nowrap' }}>
         {time ?? 'Loading...'}
       </Text>

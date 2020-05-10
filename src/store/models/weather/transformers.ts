@@ -25,8 +25,8 @@ const openWeatherToWeatherCommon = (data: OpenWeatherCommon): WeatherCommon => {
     windSpeed: data.wind_speed,
     windGust: data.wind_gust,
     windDeg: data.wind_deg,
-    rain: data.rain,
-    snow: data.snow,
+    rain: data.rain && data.rain['1h'],
+    snow: data.snow && data.snow['1h'],
     icon: data.weather[0].icon,
     description: data.weather[0].description
   };
@@ -36,8 +36,8 @@ const openWeatherCurrentToCurrent = (current: OpenWeatherCurrent): WeatherCurren
   /* eslint-disable-next-line  @typescript-eslint/camelcase */
   const { sunrise, sunset, temp, feels_like, ...data } = current;
   return {
-    sunrise,
-    sunset,
+    sunrise: sunrise * 1000,
+    sunset: sunset * 1000,
     temp,
     /* eslint-disable-next-line  @typescript-eslint/camelcase */
     feelsLike: feels_like,
@@ -60,8 +60,8 @@ const openWeatherDailyToData = (daily: OpenWeatherDaily): WeatherDaily => {
   /* eslint-disable-next-line  @typescript-eslint/camelcase */
   const { sunrise, sunset, temp, feels_like, ...data } = daily;
   return {
-    sunrise,
-    sunset,
+    sunrise: sunrise * 1000,
+    sunset: sunset * 1000,
     tempMorn: temp.morn,
     tempDay: temp.day,
     tempEve: temp.eve,

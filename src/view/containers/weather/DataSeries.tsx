@@ -1,29 +1,33 @@
 import React from 'react';
 import { omit, map } from 'lodash';
 
-import { WeatherHourly, WeatherDaily } from 'models/weather';
-
 import { useSelector } from 'store/hooks';
+import { selectors } from 'store/selectors';
+import { DataSection } from 'store/view/settings/types';
 
 import { Row } from 'view/components/layouts/Row';
 import { Scroller } from 'view/components/layouts/Scroller';
 import { WeatherCard } from 'view/components/patterns/WeatherCard';
+import { Loader } from 'view/components/primitives/Loader';
 
-import { formatTime } from 'utils';
+import { formatTime, formatShortDate } from 'utils';
 
 import { getLocationTimezone, getDisplayedLocationDataSeries } from './selectors';
+import { FormattedWeatherDaily } from './types';
 
 export const DataSeries = () => {
-  const dataSeries: (Partial<WeatherDaily> | Partial<WeatherHourly>)[] | undefined = useSelector(
+  const dataSeries: (FormattedWeatherDaily | FormattedWeatherDaily)[] | undefined = useSelector(
     getDisplayedLocationDataSeries
   );
   const timezone = useSelector(getLocationTimezone);
+  const dataSeriesType = useSelector(selectors.view.settings.getCurrentDataSeries);
+  const timeFormatter = dataSeriesType === DataSection.HOURLY ? formatTime : formatShortDate;
 
-  if (!dataSeries) return <div>loading</div>;
+  if (!dataSeries) return <Loader />;
 
   return (
-    <Scroller scrollX>
-      <Row gap={1}>
+    <Scroller scrollX styles={{ background: 'rgba(0, 0, 0, 0.85)' }}>
+      <Row gap={1} padding={1}>
         {dataSeries?.map(data => {
           const dataPoints = map(omit(data, 'time', 'icon', 'description'), (value, label) => ({
             value: String(value),
@@ -33,7 +37,7 @@ export const DataSeries = () => {
           return (
             <WeatherCard
               key={data.time}
-              time={formatTime(new Date(data.time ?? 0), timezone, false)}
+              time={timeFormatter(new Date(data.time ?? 0), timezone, false)}
               icon={{
                 src: `http://openweathermap.org/img/w/${data.icon}.png`,
                 alt: data.description

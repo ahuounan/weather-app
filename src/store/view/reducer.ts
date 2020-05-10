@@ -6,6 +6,6 @@ import { locationReducer } from './location/reducer';
 
 export const viewReducer = combineReducers({
   query: queryReducer,
-  settings: settingsReducer,
-  location: locationReducer
+  location: locationReducer,
+  settings: settingsReducer
 });

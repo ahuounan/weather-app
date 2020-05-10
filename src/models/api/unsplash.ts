@@ -31,4 +31,4 @@ export interface UnsplashPhotoData {
   downloads: number;
 }
 
-export type UnsplashRandomPhotoResponse = UnsplashPhotoData[];
+export type UnsplashRandomPhotoResponse = UnsplashPhotoData;

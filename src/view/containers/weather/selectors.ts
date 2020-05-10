@@ -1,15 +1,11 @@
-import { WeatherDaily, WeatherHourly, WeatherCurrent } from 'models/weather';
-
-import { getKey } from 'store/models/utils';
+import { getKey, isTemperatureStat, isTimeState } from 'store/models/utils';
 import { selectors } from 'store/selectors';
 import { DataSection } from 'store/view/settings/types';
 import { RootState } from 'store/types';
 
-export const getLocationBackgroundPhotoUrls = (state: RootState) => {
-  const location = selectors.view.location.get(state);
+import { formatTime } from 'utils';
 
-  return selectors.models.backgroundPhoto.makeGetDataByLocation(location)(state);
-};
+import { FormattedWeatherHourly, FormattedWeatherCurrent, FormattedWeatherDaily } from './types';
 
 export const getLocationWeather = (state: RootState) => {
   const location = selectors.view.location.get(state);
@@ -29,15 +25,27 @@ export const getLocationCurrentWeather = (state: RootState) => getLocationWeathe
 
 export const getDisplayedLocationDailyWeather = (state: RootState) => {
   const weather = getLocationDailyWeather(state);
+  const timezone = getLocationTimezone(state);
   const settings = selectors.view.settings.getDailySettings(state);
+  const formatTemp = selectors.view.settings.getFormatTemperature(state);
 
   return weather?.map(data => {
-    const filteredData: Partial<WeatherDaily> = {};
+    const filteredData: FormattedWeatherDaily = {};
 
     Object.keys(data).forEach(key => {
       const dataPoint = data[key];
       if (settings && settings[key]) {
-        (filteredData[key] as typeof dataPoint) = dataPoint;
+        if (isTemperatureStat(key)) {
+          filteredData[key] = formatTemp(dataPoint as number);
+          return;
+        }
+
+        if (isTimeState(key)) {
+          filteredData[key] = formatTime(new Date(dataPoint as number), timezone);
+          return;
+        }
+
+        (filteredData[key] as typeof dataPoint) = dataPoint ?? '-';
       }
     });
 
@@ -48,14 +56,27 @@ export const getDisplayedLocationDailyWeather = (state: RootState) => {
 export const getDisplayedLocationHourlyWeather = (state: RootState) => {
   const weather = getLocationHourlyWeather(state);
   const settings = selectors.view.settings.getHourlySettings(state);
+  const formatTemp = selectors.view.settings.getFormatTemperature(state);
+  const timezone = getLocationTimezone(state);
 
   return weather?.map(data => {
-    const filteredData: Partial<WeatherHourly> = {};
+    const filteredData: FormattedWeatherHourly = {};
 
     Object.keys(data).forEach(key => {
       const dataPoint = data[key];
+
       if (settings && settings[key]) {
-        (filteredData[key] as typeof dataPoint) = dataPoint;
+        if (isTemperatureStat(key)) {
+          filteredData[key] = formatTemp(dataPoint as number);
+          return;
+        }
+
+        if (isTimeState(key)) {
+          filteredData[key] = formatTime(new Date(dataPoint as number), timezone);
+          return;
+        }
+
+        (filteredData[key] as typeof dataPoint) = dataPoint ?? '-';
       }
     });
 
@@ -70,12 +91,24 @@ export const getDisplayedLocationCurrentWeather = (state: RootState) => {
   }
 
   const settings = selectors.view.settings.getCurrentSettings(state);
-  const filteredData: Partial<WeatherCurrent> = {};
+  const formatTemp = selectors.view.settings.getFormatTemperature(state);
+  const timezone = getLocationTimezone(state);
+  const filteredData: FormattedWeatherCurrent = {};
 
   Object.keys(data).forEach(key => {
     const dataPoint = data[key];
-    if (settings[key]) {
-      (filteredData[key] as typeof dataPoint) = dataPoint;
+    if (settings && settings[key]) {
+      if (isTemperatureStat(key)) {
+        filteredData[key] = formatTemp(dataPoint as number);
+        return;
+      }
+
+      if (isTimeState(key)) {
+        filteredData[key] = formatTime(new Date(dataPoint as number), timezone);
+        return;
+      }
+
+      (filteredData[key] as typeof dataPoint) = dataPoint ?? '-';
     }
   });
 
@@ -102,4 +135,10 @@ export const getLocationLabel = (state: RootState) => {
   const location = selectors.view.location.get(state);
 
   return selectors.models.geocode.getLocationData(state)[getKey(location)]?.label;
+};
+
+export const getLocationBackgroundPhotoUrls = (state: RootState) => {
+  const location = selectors.view.location.get(state);
+
+  return selectors.models.backgroundPhoto.makeGetDataByLocation(location)(state);
 };
