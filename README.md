@@ -1,4 +1,4 @@
-# Example Weather App based on React/Redux/Saga Architecture
+# Example Weather App, React/Redux/Saga Architecture
 An example Weather App based on a React/Redux/Saga architecture. The intention of this app is to showcase an implementation of an app based on **React/Redux architecture**. The App is split into two main sections: View and Store.
 
 ## View
