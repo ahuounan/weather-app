@@ -52,5 +52,5 @@ See diagram below for details
 - run `npm run start`
 - open in localhost:8080
 
-The (currently rather ugly) app is hosted at
+The app is hosted at
 http://weather-app.s3-website.eu-west-2.amazonaws.com/
